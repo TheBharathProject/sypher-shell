@@ -18,7 +18,9 @@ interface ToolRoute {
 
 // Add a tool here once its Vercel project is live.
 // Example: { slug: 'reel-hooks', rewriteTarget: 'https://sypher-tool-reel-hooks.vercel.app' }
-const tools: ToolRoute[] = [];
+const tools: ToolRoute[] = [
+  { slug: 'hello', rewriteTarget: 'https://sypher-tool-hello.vercel.app' },
+];
 
 const config: NextConfig = {
   reactStrictMode: true,
