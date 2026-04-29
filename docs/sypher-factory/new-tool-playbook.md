@@ -178,6 +178,7 @@ After launch:
 
 | Pitfall | Symptom | Fix |
 |---|---|---|
+| Single `/<slug>/:path*` rewrite for both bare + deeper paths | `ERR_TOO_MANY_REDIRECTS` on `sypher.in/<slug>` (works fine on `/<slug>/anything`) | Use TWO rules: exact `/<slug>` + `/<slug>/:path+`. The `:path*` form interpolates an empty match to a trailing slash, which Next.js 308s to strip — infinite loop. See `examples/shell-next.config.ts`. |
 | Forgot to add `/<slug>/` prefix to tool's app routes | 404 when accessing via shell rewrite | Move pages under `app/<slug>/` and update internal links |
 | Cookie domain misconfigured | Login on shell doesn't propagate to tool dashboard | Set cookie domain to `.sypher.in` in `@sypher/auth` config |
 | Webhook handler doesn't know about new tool | User pays, subscription not created | Webhook's metadata extractor must read `tool_slug` from session metadata |

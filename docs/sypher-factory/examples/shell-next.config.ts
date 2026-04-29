@@ -27,10 +27,23 @@ const config: NextConfig = {
   reactStrictMode: true,
 
   async rewrites() {
-    return tools.map((tool) => ({
-      source: `/${tool.slug}/:path*`,
-      destination: `${tool.rewriteTarget}/${tool.slug}/:path*`,
-    }));
+    // GOTCHA: a single `/<slug>/:path*` rule loops on the bare prefix.
+    // When :path* matches zero segments, the destination interpolates to
+    // ".../<slug>/" (trailing slash). The tool's Next.js then 308s to remove
+    // the slash, the browser bounces back through the rewrite, infinite loop.
+    //
+    // Fix: TWO rules per tool — exact /<slug> + /<slug>/:path+ for deeper paths.
+    // Verified by sypher-tool-hello on 2026-04-30.
+    return tools.flatMap((tool) => [
+      {
+        source: `/${tool.slug}`,
+        destination: `${tool.rewriteTarget}/${tool.slug}`,
+      },
+      {
+        source: `/${tool.slug}/:path+`,
+        destination: `${tool.rewriteTarget}/${tool.slug}/:path+`,
+      },
+    ]);
   },
 
   async headers() {
