@@ -5,32 +5,47 @@
  * When you ship a new tool:
  *   1. Add an entry below
  *   2. Add the matching rewrite in next.config.ts
+ *   3. Flip status from 'coming-soon' → 'live' once production-ready
  */
 
-export type ToolStatus = 'idea' | 'planned' | 'building' | 'beta' | 'live' | 'sunset';
+export type ToolStatus =
+  | "idea"
+  | "planned"
+  | "building"
+  | "coming-soon"
+  | "beta"
+  | "live"
+  | "sunset";
 
 export interface Tool {
   slug: string;
   name: string;
   tagline: string;
-  rewriteTarget: string;
+  description: string;
+  rewriteTarget?: string;
   status: ToolStatus;
   priceInr?: number;
+  launchHint?: string;
   stripeProductId?: string;
   seoKeywords?: string[];
 }
 
 export const tools: Tool[] = [
-  // Example (uncomment + edit when reel-hooks ships):
-  // {
-  //   slug: 'reel-hooks',
-  //   name: 'Reel Hooks',
-  //   tagline: "Decode any creator's top reels.",
-  //   rewriteTarget: 'https://sypher-tool-reel-hooks.vercel.app',
-  //   status: 'live',
-  //   priceInr: 99,
-  //   seoKeywords: ['instagram reel transcription', 'hook analyzer'],
-  // },
+  {
+    slug: "reel-hooks",
+    name: "Reel Hooks",
+    tagline: "Decode any creator's top reels.",
+    description:
+      "Track 2 Instagram creators. Get their top 10 reels every week — with transcripts, hook breakdowns, and three reel concepts written in your voice, ready to post.",
+    status: "coming-soon",
+    priceInr: 99,
+    launchHint: "launching this month",
+    seoKeywords: ["instagram reel transcription", "hook analyzer"],
+  },
 ];
 
-export type ToolSlug = (typeof tools)[number]['slug'];
+export type ToolSlug = (typeof tools)[number]["slug"];
+
+export const liveTools = () => tools.filter((t) => t.status === "live" || t.status === "beta");
+export const upcomingTools = () =>
+  tools.filter((t) => t.status === "coming-soon" || t.status === "building" || t.status === "planned");
