@@ -29,16 +29,16 @@ const steps: Step[] = [
 export function Method() {
   return (
     <section className="hairline-top">
-      <div className="mx-auto max-w-[1400px] px-6 py-20 md:px-10 md:py-32">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
+      <div className="mx-auto max-w-[1200px] px-6 py-14 md:px-10 md:py-20">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-14">
           <div className="md:col-span-4">
-            <p className="t-section-marker mb-6">// 03 / method</p>
-            <h2 className="t-display text-[44px] leading-[0.95] md:text-[64px]">
+            <p className="t-section-marker mb-5">// 03 / method</p>
+            <h2 className="t-display text-[36px] leading-[0.95] md:text-[52px]">
               How it works,
               <br />
               <span className="t-display-italic">briefly</span>.
             </h2>
-            <p className="t-mono mt-6 max-w-sm text-sm leading-relaxed text-bone-muted">
+            <p className="t-mono mt-5 max-w-sm text-[13px] leading-relaxed text-bone-muted md:text-[14px]">
               Demonstrated with Reel Hooks. The other tools follow the same
               shape: input → decode → output you can use.
             </p>
@@ -48,20 +48,20 @@ export function Method() {
             {steps.map((s, i) => (
               <li
                 key={s.num}
-                className={`grid grid-cols-12 gap-4 py-10 md:gap-8 md:py-12 ${
+                className={`grid grid-cols-12 gap-3 py-7 md:gap-6 md:py-8 ${
                   i !== 0 ? "border-t border-hairline" : ""
                 }`}
               >
-                <span className="t-display col-span-12 text-[64px] leading-[0.85] text-bone md:col-span-2 md:text-[96px]">
+                <span className="t-display col-span-12 text-[48px] leading-[0.85] text-bone md:col-span-2 md:text-[64px]">
                   <span className="text-bone-faint">{s.num.charAt(0)}</span>
                   {s.num.charAt(1)}
                 </span>
                 <div className="col-span-12 md:col-span-7">
-                  <h3 className="t-display text-[36px] leading-[1] text-bone md:text-[52px]">
+                  <h3 className="t-display text-[28px] leading-[1] text-bone md:text-[36px]">
                     {s.title}
                   </h3>
                   <p
-                    className="t-mono mt-3 max-w-md text-[14px] leading-relaxed text-bone-muted md:text-[15px]"
+                    className="t-mono mt-2.5 max-w-md text-[13px] leading-relaxed text-bone-muted md:text-[14px]"
                     dangerouslySetInnerHTML={{ __html: s.body }}
                   />
                 </div>

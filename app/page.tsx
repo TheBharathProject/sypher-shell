@@ -3,6 +3,7 @@ import { Hero } from "./_components/hero";
 import { Manifesto } from "./_components/manifesto";
 import { ToolsSection } from "./_components/tools-section";
 import { Method } from "./_components/method";
+import { Maker } from "./_components/maker";
 import { ClosingCta } from "./_components/closing-cta";
 import { SiteFooter } from "./_components/site-footer";
 
@@ -20,6 +21,10 @@ export default function Home() {
       "@type": "Place",
       name: "Mumbai, India",
     },
+    founder: {
+      "@type": "Person",
+      name: "Shubham Dixit",
+    },
   };
 
   return (
@@ -34,6 +39,7 @@ export default function Home() {
         <Manifesto />
         <ToolsSection />
         <Method />
+        <Maker />
         <ClosingCta />
       </main>
       <SiteFooter />
