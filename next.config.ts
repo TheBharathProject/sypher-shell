@@ -26,10 +26,21 @@ const config: NextConfig = {
   reactStrictMode: true,
 
   async rewrites() {
-    return tools.map((tool) => ({
-      source: `/${tool.slug}/:path*`,
-      destination: `${tool.rewriteTarget}/${tool.slug}/:path*`,
-    }));
+    // Two rules per tool:
+    //   1) exact /<slug>      → matches the bare prefix without adding a trailing slash
+    //   2) /<slug>/:path+     → matches one-or-more deeper segments
+    // Using a single /<slug>/:path* (zero-or-more) interpolates to ".../<slug>/" when the
+    // path is empty, which Next.js 308s to remove the trailing slash, causing a loop.
+    return tools.flatMap((tool) => [
+      {
+        source: `/${tool.slug}`,
+        destination: `${tool.rewriteTarget}/${tool.slug}`,
+      },
+      {
+        source: `/${tool.slug}/:path+`,
+        destination: `${tool.rewriteTarget}/${tool.slug}/:path+`,
+      },
+    ]);
   },
 
   async headers() {
