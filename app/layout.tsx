@@ -20,25 +20,27 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://sypher.in"),
   title: {
-    default: "Sypher — Tools for creators who ship faster than the algorithm",
+    default: "Sypher — Small tools that decode the thing you're stuck on",
     template: "%s · Sypher",
   },
   description:
-    "A growing factory of small, sharp tools for the Indian creator economy. Decode what's working in your niche — and turn it into your next post.",
+    "A growing library of small SaaS tools — each focused on a single specific job. Reels, trading data, captions, and more. One tool, one problem, ₹99-ish a month.",
   keywords: [
+    "small saas tools",
     "creator tools",
+    "trading data tools",
+    "indie saas",
+    "indian saas",
     "instagram reel analyzer",
-    "indian creator economy",
     "content research",
-    "hook analysis",
   ],
   alternates: { canonical: "https://sypher.in" },
   openGraph: {
     type: "website",
     siteName: "Sypher",
-    title: "Sypher — Tools for creators who ship faster than the algorithm",
+    title: "Sypher — Small tools that decode the thing you're stuck on",
     description:
-      "A growing factory of small, sharp tools for the Indian creator economy.",
+      "A growing library of small SaaS tools — each focused on a single specific job.",
     url: "https://sypher.in",
     locale: "en_IN",
   },
@@ -46,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sypher",
     description:
-      "Tools for creators who ship faster than the algorithm.",
+      "Small tools that decode the thing you're stuck on.",
   },
   robots: { index: true, follow: true },
 };

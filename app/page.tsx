@@ -16,11 +16,7 @@ export default function Home() {
     name: "Sypher",
     url: "https://sypher.in",
     description:
-      "A factory of small, sharp tools for the Indian creator economy.",
-    foundingLocation: {
-      "@type": "Place",
-      name: "Mumbai, India",
-    },
+      "A growing library of small SaaS tools, each focused on a single specific job.",
     founder: {
       "@type": "Person",
       name: "Shubham Dixit",

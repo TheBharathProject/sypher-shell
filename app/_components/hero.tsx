@@ -6,23 +6,22 @@ export function Hero() {
         <div className="reveal reveal-1 t-eyebrow flex flex-wrap items-center gap-x-3 gap-y-1">
           <span>// sypher</span>
           <span className="opacity-40">·</span>
-          <span>toolbelt for creators</span>
+          <span>small tools, decoded</span>
           <span className="opacity-40">·</span>
           <span>v0.1.0</span>
-          <span className="opacity-40">·</span>
-          <span>mumbai</span>
         </div>
 
         {/* headline — tightened */}
         <h1 className="t-display mt-7 text-[clamp(40px,6.4vw,84px)]">
-          <span className="reveal reveal-2 block">Tools for creators</span>
+          <span className="reveal reveal-2 block">Small tools</span>
           <span className="reveal reveal-3 block">
-            who ship <span className="t-display-italic">faster</span>
+            that <span className="t-display-italic">decode</span>
           </span>
-          <span className="reveal reveal-4 block">than the</span>
+          <span className="reveal reveal-4 block">the thing</span>
           <span className="reveal reveal-5 block">
+            you&rsquo;re{" "}
             <span className="relative inline-block">
-              algorithm
+              stuck on
               <span
                 className="absolute left-0 right-0 -bottom-1 h-[5px] bg-decode origin-left scale-x-0 will-change-transform"
                 style={{
@@ -38,9 +37,9 @@ export function Hero() {
 
         {/* sub */}
         <p className="reveal reveal-6 t-mono mt-8 max-w-lg text-[14px] leading-relaxed text-bone-muted md:text-[15px]">
-          A growing factory of small, sharp tools that decode what&rsquo;s
-          working in your niche &mdash; and turn it into your next post. Built
-          for the Indian creator economy. Priced like one too.
+          A growing library of small SaaS tools &mdash; each one focused on a
+          single specific job. Reels today, trading data tomorrow, something
+          else next month. One tool, one problem, ₹99-ish a month.
         </p>
 
         {/* status line */}

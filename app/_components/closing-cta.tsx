@@ -10,8 +10,8 @@ export function ClosingCta() {
               <span className="t-display-italic text-saffron">first?</span>
             </h2>
             <p className="t-mono mt-4 max-w-md text-[13px] leading-relaxed text-bone-muted md:text-[14px]">
-              One email when Tool 01 goes live, with a launch-only code for
-              the first 100 creators. No spam, ever.
+              One email when Tool 01 goes live, with a launch-only discount
+              for the first 100 sign-ups. No spam, ever.
             </p>
           </div>
 

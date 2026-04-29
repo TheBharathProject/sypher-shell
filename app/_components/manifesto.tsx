@@ -12,13 +12,13 @@ const principles: Principle[] = [
   },
   {
     number: "ii.",
-    title: "Rupee first. Dollar later.",
-    body: "Built and priced for India before anywhere else. ₹99 isn&rsquo;t a marketing trick. It&rsquo;s the unit we work in.",
+    title: "Different niches. Same shape.",
+    body: "Reels today, options data tomorrow, captions next month. The shape never changes: input → decode → output you can use. Different problems, same engine.",
   },
   {
     number: "iii.",
     title: "Ship → soak → simplify.",
-    body: "We push fast, watch what people use, then cut what they don&rsquo;t. The product gets smaller, not bigger, over time.",
+    body: "Push fast, watch what people use, cut what they don&rsquo;t. The product gets smaller, not bigger, over time.",
   },
 ];
 
@@ -30,7 +30,7 @@ export function Manifesto() {
           <div className="md:col-span-5 md:sticky md:top-12 md:self-start">
             <p className="t-section-marker mb-5">// 01 / decode</p>
             <h2 className="t-display text-[36px] leading-[0.95] md:text-[52px]">
-              Every viral reel is{" "}
+              Every problem is{" "}
               <span className="t-display-italic">encrypted.</span>
               <br />
               We <span className="relative inline-block">

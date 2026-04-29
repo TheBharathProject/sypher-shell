@@ -8,17 +8,14 @@ export function Maker() {
             <p className="t-section-marker mb-5">// 04 / maker</p>
             <h2 className="t-display text-[36px] leading-[0.95] md:text-[52px]">
               By <span className="t-display-italic">Shubham</span>.
-              <br />
-              From Mumbai.
             </h2>
             <p className="t-mono mt-6 max-w-md text-[13px] leading-relaxed text-bone-muted md:text-[14px]">
-              Solo founder. Builds quietly, ships often. Sypher is the next
-              chapter — a small studio for small tools that creators in India
-              actually want to pay ₹99 for.
+              Solo builder. Ships across niches — creator analytics, trading
+              data, mobile games, whatever needs a sharp tool. Sypher is the
+              wrapper that makes shipping the next one cheaper.
             </p>
             <p className="t-mono mt-4 max-w-md text-[13px] leading-relaxed text-bone-muted md:text-[14px]">
-              Before this, a few other things shipped. One that&rsquo;s still
-              live →
+              A few things have already shipped. One is still live →
             </p>
           </div>
 
