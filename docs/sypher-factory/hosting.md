@@ -52,15 +52,14 @@ The shell's `next.config.ts` declares a rewrites table:
 
 ```ts
 async rewrites() {
+  // Two rules per tool — exact /<slug> + /<slug>/:path+ for deeper paths.
+  // (A single /<slug>/:path* rule loops on the bare prefix; see
+  //  examples/shell-next.config.ts for the explanation.)
   return [
-    {
-      source: '/reel-hooks/:path*',
-      destination: 'https://sypher-tool-reel-hooks.vercel.app/reel-hooks/:path*',
-    },
-    {
-      source: '/yt-summarizer/:path*',
-      destination: 'https://sypher-tool-yt-summarizer.vercel.app/yt-summarizer/:path*',
-    },
+    { source: '/reel-hooks',           destination: 'https://sypher-tool-reel-hooks.vercel.app/reel-hooks' },
+    { source: '/reel-hooks/:path+',    destination: 'https://sypher-tool-reel-hooks.vercel.app/reel-hooks/:path+' },
+    { source: '/yt-summarizer',        destination: 'https://sypher-tool-yt-summarizer.vercel.app/yt-summarizer' },
+    { source: '/yt-summarizer/:path+', destination: 'https://sypher-tool-yt-summarizer.vercel.app/yt-summarizer/:path+' },
   ];
 }
 ```

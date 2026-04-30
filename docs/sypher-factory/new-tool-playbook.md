@@ -40,18 +40,16 @@ npx create-next-app@latest . --typescript --app --tailwind --eslint --use-pnpm
 # 3. Add shared packages
 pnpm add @sypher/auth @sypher/ui @sypher/types @sypher/analytics
 
-# 4. Move app folder under tool slug
-mkdir -p app/<slug>
-mv app/page.tsx app/layout.tsx app/<slug>/
-# Update layout to wrap correctly
+# 4. Configure basePath — DO NOT nest pages under app/<slug>/.
+# Copy examples/tool-next.config.ts as next.config.ts and set
+# basePath: '/<slug>'. Pages stay at app/page.tsx, app/dashboard/page.tsx etc.
+# See repo-structure.md for why basePath beats nesting.
 
 # 5. Copy .env.example from the shell repo, fill in tool-specific keys
 
 # 6. Copy github-workflow-ci.yml from sypher-factory/examples/
 
-# 7. Copy tool-next.config.ts as next.config.ts; tweak
-
-# 8. Initial commit
+# 7. Initial commit
 git add -A
 git commit -m "Bootstrap sypher-tool-<slug>"
 git push -u origin main
@@ -91,7 +89,7 @@ The tool's marketing page is now reachable at `sypher.in/my-new-tool` (currently
 
 Before any backend work — get the SEO surface live.
 
-- [ ] `app/<slug>/page.tsx`: hero, value prop, demo (static screenshot or GIF is fine), pricing, FAQ
+- [ ] `app/page.tsx`: hero, value prop, demo (static screenshot or GIF is fine), pricing, FAQ — basePath adds `/<slug>` automatically
 - [ ] All metadata fields populated (`tool-page-metadata.ts` factory)
 - [ ] OG image generated and committed at `/<slug>/og.png`
 - [ ] JSON-LD `SoftwareApplication` schema present
@@ -128,8 +126,8 @@ Caching layer:
 
 ## Phase 5: Build the dashboard (1–2 days)
 
-- [ ] `app/<slug>/dashboard/page.tsx` — list view of user's tracked profiles
-- [ ] `app/<slug>/dashboard/projects/[id]/page.tsx` — detail view of analysis
+- [ ] `app/dashboard/page.tsx` — list view of user's tracked profiles
+- [ ] `app/dashboard/projects/[id]/page.tsx` — detail view of analysis
 - [ ] Subscription gate: `requireSubscription('<slug>')` in layout
 - [ ] Onboarding flow: ask for user's niche on first dashboard visit
 - [ ] Free-tier paywall: handle `?paywall=1` query param, show Stripe Checkout button
@@ -179,7 +177,8 @@ After launch:
 | Pitfall | Symptom | Fix |
 |---|---|---|
 | Single `/<slug>/:path*` rewrite for both bare + deeper paths | `ERR_TOO_MANY_REDIRECTS` on `sypher.in/<slug>` (works fine on `/<slug>/anything`) | Use TWO rules: exact `/<slug>` + `/<slug>/:path+`. The `:path*` form interpolates an empty match to a trailing slash, which Next.js 308s to strip — infinite loop. See `examples/shell-next.config.ts`. |
-| Forgot to add `/<slug>/` prefix to tool's app routes | 404 when accessing via shell rewrite | Move pages under `app/<slug>/` and update internal links |
+| Missing `basePath` in tool's `next.config.ts` | Page renders but CSS/JS don't load (asset URLs miss the slug prefix → fetched from shell domain → 404) | Set `basePath: '/<slug>'`. See `examples/tool-next.config.ts`. |
+| Pages nested under `app/<slug>/` AND basePath set | Routes resolve to `/<slug>/<slug>/...` — double prefix, 404s | Pick one: basePath (recommended) OR nesting. The factory uses basePath. |
 | Cookie domain misconfigured | Login on shell doesn't propagate to tool dashboard | Set cookie domain to `.sypher.in` in `@sypher/auth` config |
 | Webhook handler doesn't know about new tool | User pays, subscription not created | Webhook's metadata extractor must read `tool_slug` from session metadata |
 | Rewrite target points at preview URL | 502 when preview is rebuilt | Use the production `*.vercel.app` URL, not a Git-branch preview |

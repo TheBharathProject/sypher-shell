@@ -1,7 +1,7 @@
 /**
  * Reusable metadata factory for tool marketing pages.
  *
- * Usage in app/<slug>/page.tsx:
+ * Usage in app/page.tsx (with basePath: '/<slug>' set in next.config.ts):
  *
  *   import { buildToolMetadata } from '@/lib/seo';
  *   export const metadata = buildToolMetadata({

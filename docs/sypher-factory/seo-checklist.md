@@ -7,7 +7,7 @@ Every tool ships with these. Bake them into the tool template so it's automatic.
 ### 1. Server-rendered HTML
 
 ```ts
-// app/<slug>/page.tsx
+// app/page.tsx (with basePath: '/<slug>' set in next.config.ts)
 export const dynamic = 'force-static';
 // or, if data needed:
 export const revalidate = 3600; // ISR every hour
@@ -184,7 +184,7 @@ sypher.in/reel-hooks/for/finance-creators
 Same UI, different metadata + headline. Each variant is a row in a content data file:
 
 ```ts
-// app/reel-hooks/[variant]/page.tsx + generateStaticParams
+// app/[variant]/page.tsx + generateStaticParams (basePath adds /reel-hooks)
 ```
 
 This is how Zapier ranked for "X to Y integration" across thousands of pages. Don't do it for tool #1 — do it once you've nailed your first few tool launches.

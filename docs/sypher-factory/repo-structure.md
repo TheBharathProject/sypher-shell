@@ -147,21 +147,20 @@ One repo per tool. Standardized structure makes shipping tool N+1 fast.
 ```
 sypher-tool-reel-hooks/
 ├── app/
-│   └── reel-hooks/                  # NOTE: namespaced under tool slug
-│       ├── page.tsx                 # Marketing page (sypher.in/reel-hooks)
-│       ├── how-it-works/page.tsx    # SEO content (sypher.in/reel-hooks/how-it-works)
-│       ├── examples/page.tsx        # SEO content
-│       ├── dashboard/
-│       │   ├── page.tsx             # App entry (gated)
-│       │   ├── layout.tsx           # Sidebar, etc.
-│       │   └── projects/[id]/page.tsx
-│       ├── r/[id]/page.tsx          # Shareable result page (public OR gated, decide per-tool)
-│       └── api/
-│           ├── analyze/route.ts
-│           ├── results/route.ts
-│           └── ...
+│   ├── page.tsx                     # Marketing — basePath adds /reel-hooks
+│   ├── how-it-works/page.tsx        # SEO content (→ sypher.in/reel-hooks/how-it-works)
+│   ├── examples/page.tsx
+│   ├── dashboard/
+│   │   ├── page.tsx                 # App entry (auth+sub gated)
+│   │   ├── layout.tsx
+│   │   └── projects/[id]/page.tsx
+│   ├── r/[id]/page.tsx              # Shareable result page
+│   └── api/
+│       ├── analyze/route.ts
+│       ├── results/route.ts
+│       └── ...
 ├── lib/
-│   ├── supabase.ts                  # Re-exports from @sypher/auth
+│   ├── supabase.ts
 │   ├── deepgram.ts
 │   ├── apify.ts
 │   └── analyze.ts
@@ -169,19 +168,21 @@ sypher-tool-reel-hooks/
 │   ├── HookAnalysis.tsx
 │   └── ...
 ├── supabase/
-│   └── migrations/                  # Tool-specific tables
+│   └── migrations/
 │       └── 0001_create_reels_table.sql
-├── middleware.ts                    # Subscription gate for /reel-hooks/dashboard/*
-├── next.config.ts
+├── middleware.ts                    # Sub gate. matcher: /dashboard/:path* (basePath-relative)
+├── next.config.ts                   # basePath: '/reel-hooks' — load-bearing
 ├── package.json
 └── .env.example
 ```
 
-**Why pages live under `app/reel-hooks/` and not `app/`:**
+**Why basePath, not `app/<slug>/` nesting:**
 
-The shell rewrites `sypher.in/reel-hooks/*` → `<tool>.vercel.app/reel-hooks/*`. The path includes the prefix on both sides. So the tool repo's Next.js routes must include `/reel-hooks/` in their paths to match. This keeps internal links, asset paths, canonical URLs, and Next.js routing all aligned.
+Use `basePath: '/<slug>'` in `next.config.ts` and put pages directly under `app/`. Next.js prefixes EVERYTHING with `/<slug>` automatically — pages, `_next/static/*` assets, API routes, Link `href`s. The shell's `/<slug>/:path+` rewrite then catches all of it, including `_next/static/css/*` requests.
 
-If you wanted to drop the prefix from the tool repo's routes, you'd need a `basePath` in `next.config.ts` plus rewrite path stripping. The aligned-path approach is simpler and less fragile.
+The earlier suggestion to nest pages under `app/<slug>/` without basePath **does not work**. Pages render fine, but `_next/static/*` asset URLs don't include the slug prefix, so the browser fetches them from the shell domain (where they don't exist) and CSS/JS fail to load. Verified the failure mode and fix on 2026-04-30 with `sypher-tool-hello`.
+
+Internal `<Link href="/dashboard">` automatically becomes `/reel-hooks/dashboard` in the browser. To link out to the apex (e.g., back to `sypher.in/`), use a plain `<a href="/">` — `<Link>` would prepend the basePath and route within the tool.
 
 ## Naming conventions
 

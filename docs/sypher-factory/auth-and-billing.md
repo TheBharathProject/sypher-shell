@@ -106,11 +106,11 @@ export async function requireSubscription(toolSlug: string) {
 }
 ```
 
-Each tool calls this in its dashboard page or middleware. Cleanest pattern: do it in `app/<slug>/dashboard/layout.tsx` so every dashboard route is gated.
+Each tool calls this in its dashboard page or middleware. Cleanest pattern: do it in `app/dashboard/layout.tsx` so every dashboard route is gated. With `basePath: '/<slug>'` set in `next.config.ts`, that file serves at `sypher.in/<slug>/dashboard/*` automatically.
 
 ### Middleware approach (alternative)
 
-Each tool repo can also add a `middleware.ts` that gates `/<slug>/dashboard/:path*`:
+Each tool repo can also add a `middleware.ts` that gates `/dashboard/:path*` (matchers are basePath-relative — Next.js prepends `/<slug>` itself):
 
 ```ts
 import { NextResponse, type NextRequest } from 'next/server';
@@ -143,7 +143,8 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/reel-hooks/dashboard/:path*'],
+  // basePath-relative — with basePath: '/reel-hooks' this matches sypher.in/reel-hooks/dashboard/*
+  matcher: ['/dashboard/:path*'],
 };
 ```
 

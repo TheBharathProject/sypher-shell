@@ -1,40 +1,47 @@
 /**
  * Per-tool repo — next.config.ts (example for sypher-tool-reel-hooks)
  *
- * Tool repos serve their pages under /<slug>/* paths to match the shell's
- * rewrites. No basePath is used (it's simpler to just put everything under
- * app/<slug>/ in the file system).
+ * basePath is the load-bearing line. Without it, Next.js generates asset
+ * URLs like /_next/static/..., the browser fetches them from sypher.in
+ * (which doesn't have them), and CSS/JS never loads. With basePath,
+ * EVERYTHING (pages, /_next/static/..., API routes) gets the /<slug>
+ * prefix, so the shell's /<slug>/:path+ rewrite catches it all.
+ *
+ * Pages live at app/page.tsx, app/dashboard/page.tsx, etc. — DO NOT nest
+ * routes under app/<slug>/. basePath adds the prefix automatically.
+ *
+ * Verified end-to-end with sypher-tool-hello on 2026-04-30.
  */
 
-import type { NextConfig } from 'next';
+import type { NextConfig } from "next";
 
 const config: NextConfig = {
+  basePath: "/reel-hooks",
   reactStrictMode: true,
 
-  // The tool's content lives under /reel-hooks/* paths, so /favicon.ico,
-  // /og.png etc. live under public/reel-hooks/ as well.
   images: {
     remotePatterns: [
-      // If you serve thumbnails from R2 / Supabase storage:
-      { protocol: 'https', hostname: '*.r2.cloudflarestorage.com' },
-      { protocol: 'https', hostname: '*.supabase.co' },
+      { protocol: "https", hostname: "*.r2.cloudflarestorage.com" },
+      { protocol: "https", hostname: "*.supabase.co" },
     ],
   },
 
   async headers() {
     return [
       {
-        source: '/reel-hooks/dashboard/:path*',
+        // Source paths here are relative to the basePath — i.e., /dashboard/*
+        // resolves to /reel-hooks/dashboard/* in the URL.
+        source: "/dashboard/:path*",
         headers: [
-          { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
-          { key: 'Cache-Control', value: 'private, no-cache, no-store, must-revalidate' },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+          { key: "Cache-Control", value: "private, no-cache, no-store, must-revalidate" },
         ],
       },
       {
-        source: '/reel-hooks/api/:path*',
+        source: "/api/:path*",
         headers: [
-          { key: 'X-Robots-Tag', value: 'noindex' },
-          { key: 'Cache-Control', value: 'private, no-cache' },
+          { key: "X-Robots-Tag", value: "noindex" },
+          { key: "Cache-Control", value: "private, no-cache" },
         ],
       },
     ];
