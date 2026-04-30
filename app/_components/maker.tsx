@@ -1,71 +1,62 @@
 export function Maker() {
   return (
-    <section id="maker" className="hairline-top">
-      <div className="mx-auto max-w-[1200px] px-6 py-14 md:px-10 md:py-20">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-14">
-          {/* About */}
-          <div className="md:col-span-5">
-            <p className="t-section-marker mb-5">// 04 / maker</p>
-            <h2 className="t-display text-[36px] leading-[0.95] md:text-[52px]">
-              By <span className="t-display-italic">Shubham</span>.
+    <section id="maker" className="bg-deep border-t border-b border-hairline">
+      <div className="section-wrap py-20 md:py-28">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
+          <div className="md:col-span-7">
+            <p className="t-eyebrow mb-4">Maker</p>
+            <h2 className="t-display text-[clamp(28px,4vw,44px)]">
+              Built by{" "}
+              <span className="t-display-italic">Shubham</span>.
             </h2>
-            <p className="t-mono mt-6 max-w-md text-[13px] leading-relaxed text-bone-muted md:text-[14px]">
-              Solo builder. Ships across niches — creator analytics, trading
+            <p className="mt-5 text-[15px] leading-relaxed text-ink-muted max-w-[520px]">
+              Solo founder. Ships across niches — creator analytics, trading
               data, mobile games, whatever needs a sharp tool. Sypher is the
               wrapper that makes shipping the next one cheaper.
             </p>
-            <p className="t-mono mt-4 max-w-md text-[13px] leading-relaxed text-bone-muted md:text-[14px]">
-              A few things have already shipped. One is still live →
+            <p className="mt-3 text-[14px] text-ink-muted">
+              <a
+                href="mailto:buildwithshubham.dixit@gmail.com"
+                className="text-ink underline underline-offset-4 decoration-hairline hover:decoration-ink"
+              >
+                buildwithshubham.dixit@gmail.com
+              </a>
             </p>
           </div>
 
-          {/* Shipped — Merge Up card */}
-          <div className="md:col-span-7">
-            <p className="t-section-marker mb-3">also shipped</p>
-
-            <article className="border border-hairline bg-paper-deep p-6 md:p-8">
-              <div className="flex items-start justify-between gap-4">
-                <span className="t-mono inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-saffron">
-                  <span className="size-1.5 rounded-full bg-saffron" />
-                  live · play store
+          <div className="md:col-span-5">
+            <article className="card">
+              <div className="flex items-center justify-between mb-4">
+                <span className="inline-flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.12em] text-saffron">
+                  <span className="size-1.5 rounded-full bg-saffron" aria-hidden />
+                  Live · Play Store
                 </span>
-                <span className="t-mono text-[10px] uppercase tracking-[0.18em] text-bone-faint">
+                <span className="text-[12px] text-ink-faint font-mono">
                   /merge-up
                 </span>
               </div>
-
-              <h3 className="t-display mt-7 text-[32px] leading-[1] md:text-[44px]">
+              <h3 className="text-[20px] font-semibold tracking-tight">
                 Merge Up
               </h3>
-              <p className="t-mono mt-2.5 text-[13px] leading-relaxed text-bone md:text-[14px]">
+              <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">
                 A puzzle game where you merge numbered blocks to reach higher
                 scores and unlock levels.
               </p>
-              <p className="t-mono mt-3 max-w-md text-[12px] leading-relaxed text-bone-muted md:text-[13px]">
-                Built and published on the Play Store. Collects only a game
-                username and score for leaderboards — nothing personal.
+              <p className="mt-3 text-[13px] text-ink-faint">
+                Privacy-first: only a username and score, nothing personal.
               </p>
-
-              <div className="mt-7 flex flex-wrap items-center justify-between gap-y-2 border-t border-hairline pt-3">
-                <div className="t-mono flex flex-wrap gap-x-4 gap-y-1 text-[10px] uppercase tracking-[0.18em] text-bone-muted">
-                  <a
-                    href="/mergeup-privacy-policy.md"
-                    className="hover:text-bone transition-colors"
-                  >
-                    privacy policy
-                  </a>
-                  <a
-                    href="/merge_up_terms_of_service.md"
-                    className="hover:text-bone transition-colors"
-                  >
-                    terms
-                  </a>
-                </div>
+              <div className="mt-5 pt-4 border-t border-hairline flex items-center gap-4 text-[12px]">
                 <a
-                  href="mailto:buildwithshubham.dixit@gmail.com"
-                  className="t-mono text-[10px] uppercase tracking-[0.18em] text-bone hover:text-decode transition-colors"
+                  href="/mergeup-privacy-policy.md"
+                  className="text-ink-muted hover:text-ink"
                 >
-                  contact maker →
+                  Privacy
+                </a>
+                <a
+                  href="/merge_up_terms_of_service.md"
+                  className="text-ink-muted hover:text-ink"
+                >
+                  Terms
                 </a>
               </div>
             </article>

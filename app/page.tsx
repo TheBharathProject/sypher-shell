@@ -1,9 +1,10 @@
 import { SiteHeader } from "./_components/site-header";
 import { Hero } from "./_components/hero";
-import { Manifesto } from "./_components/manifesto";
+import { Principles } from "./_components/principles";
 import { ToolsSection } from "./_components/tools-section";
-import { Method } from "./_components/method";
+import { Audiences } from "./_components/audiences";
 import { Maker } from "./_components/maker";
+import { FAQ } from "./_components/faq";
 import { ClosingCta } from "./_components/closing-cta";
 import { SiteFooter } from "./_components/site-footer";
 
@@ -32,10 +33,11 @@ export default function Home() {
       <SiteHeader />
       <main className="flex-1">
         <Hero />
-        <Manifesto />
+        <Principles />
         <ToolsSection />
-        <Method />
+        <Audiences />
         <Maker />
+        <FAQ />
         <ClosingCta />
       </main>
       <SiteFooter />

@@ -1,91 +1,42 @@
 export function SiteFooter() {
   return (
-    <footer className="hairline-top">
-      <div className="mx-auto max-w-[1200px] px-6 py-10 md:px-10 md:py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
-          <div className="md:col-span-7">
-            <p className="t-eyebrow mb-3">// signoff</p>
-            <h3 className="t-display text-[28px] leading-[0.95] md:text-[36px]">
-              Sharp tools.{" "}
-              <span className="t-display-italic text-saffron">Shipped fast.</span>
-            </h3>
-            <p className="t-mono mt-3 max-w-md text-[12px] leading-relaxed text-bone-muted md:text-[13px]">
-              Specific tools for specific problems. Built for use, not for
-              pitch decks.
-            </p>
-          </div>
-
-          <div className="md:col-span-5">
-            <p className="t-eyebrow mb-3">// links</p>
-            <ul className="t-mono grid grid-cols-2 gap-x-4 gap-y-1.5 text-[12px] md:text-[13px]">
-              <li>
-                <a
-                  href="/#manifesto"
-                  className="text-bone-muted hover:text-bone transition-colors"
-                >
-                  manifesto
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/#tools"
-                  className="text-bone-muted hover:text-bone transition-colors"
-                >
-                  tools
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/blog"
-                  className="text-bone-muted hover:text-bone transition-colors"
-                >
-                  blog
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/#maker"
-                  className="text-bone-muted hover:text-bone transition-colors"
-                >
-                  maker
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/TheBharathProject"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-bone-muted hover:text-bone transition-colors"
-                >
-                  github ↗
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/mergeup-privacy-policy.md"
-                  className="text-bone-faint hover:text-bone transition-colors"
-                >
-                  merge up privacy
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/merge_up_terms_of_service.md"
-                  className="text-bone-faint hover:text-bone transition-colors"
-                >
-                  merge up terms
-                </a>
-              </li>
-            </ul>
-          </div>
+    <footer className="border-t border-hairline">
+      <div className="section-wrap py-10 md:py-12 flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+        <div className="flex items-center gap-3 text-[14px] text-ink-muted">
+          <span className="inline-block size-2 rounded-full bg-saffron" aria-hidden />
+          <span>
+            <span className="text-ink font-medium">Sypher</span> · made by Shubham Dixit
+          </span>
         </div>
 
-        <div className="hairline-divider mt-10" />
-
-        <div className="t-mono mt-5 flex flex-col items-start justify-between gap-2 text-[10px] uppercase tracking-[0.18em] text-bone-faint md:flex-row md:items-center">
-          <span>© 2026 sypher</span>
-          <span>v0.1.0 · last decoded {new Date().toISOString().slice(0, 10)}</span>
-        </div>
+        <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px] text-ink-muted">
+          <a href="#tools" className="hover:text-ink">
+            Tools
+          </a>
+          <a href="#manifesto" className="hover:text-ink">
+            Principles
+          </a>
+          <a href="#faq" className="hover:text-ink">
+            FAQ
+          </a>
+          <a href="/blog" className="hover:text-ink">
+            Blog
+          </a>
+          <a
+            href="https://github.com/TheBharathProject"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-ink"
+          >
+            GitHub
+          </a>
+          <a href="/mergeup-privacy-policy.md" className="hover:text-ink">
+            Privacy
+          </a>
+          <a href="/merge_up_terms_of_service.md" className="hover:text-ink">
+            Terms
+          </a>
+        </nav>
       </div>
     </footer>
   );

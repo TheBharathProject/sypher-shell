@@ -2,29 +2,25 @@ import Link from "next/link";
 
 export function SiteHeader() {
   return (
-    <header className="hairline-bottom">
-      <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4 md:px-10 md:py-5">
-        <Link href="/" className="t-mono flex items-center gap-2 text-[13px] tracking-wide">
-          <span className="inline-block size-2 rounded-full bg-decode" aria-hidden />
-          <span className="font-medium text-bone">sypher</span>
-          <span className="text-bone-muted">/in</span>
+    <header className="border-b border-hairline bg-paper/80 backdrop-blur-sm sticky top-0 z-40">
+      <div className="section-wrap flex items-center justify-between py-4">
+        <Link href="/" className="flex items-center gap-2 text-[15px] font-medium text-ink">
+          <span className="inline-block size-2 rounded-full bg-saffron" aria-hidden />
+          Sypher
         </Link>
 
-        <nav className="t-mono flex items-center gap-5 text-[11px] uppercase tracking-[0.18em] text-bone-muted">
-          <a href="/#tools" className="hover:text-bone transition-colors">
-            tools
+        <nav className="flex items-center gap-6 text-[14px] text-ink-muted">
+          <a href="#tools" className="hover:text-ink transition-colors hidden sm:inline">
+            Tools
           </a>
-          <Link href="/blog" className="hover:text-bone transition-colors">
-            blog
+          <a href="#faq" className="hover:text-ink transition-colors hidden sm:inline">
+            FAQ
+          </a>
+          <Link href="/blog" className="hover:text-ink transition-colors">
+            Blog
           </Link>
-          <a href="/#manifesto" className="hidden hover:text-bone transition-colors sm:inline">
-            manifesto
-          </a>
-          <a href="/#maker" className="hidden hover:text-bone transition-colors sm:inline">
-            maker
-          </a>
-          <a href="/#waitlist" className="text-bone hover:text-decode transition-colors">
-            waitlist&nbsp;↗
+          <a href="#waitlist" className="btn btn-primary py-2 px-4 text-[13px]">
+            Join waitlist
           </a>
         </nav>
       </div>
