@@ -1,7 +1,7 @@
 import {
+  getBlogPosts,
   getCategories,
   getFeaturedPost,
-  getNonFeaturedPosts,
 } from "@/lib/blog";
 import { BlogHeader } from "./_components/blog-header";
 import { FeaturedCard } from "./_components/featured-card";
@@ -19,7 +19,7 @@ export const metadata = {
 
 export default async function BlogIndex() {
   const featured = await getFeaturedPost();
-  const stories = await getNonFeaturedPosts();
+  const stories = await getBlogPosts(); // featured post still appears here
   const categories = await getCategories();
 
   return (
@@ -49,14 +49,10 @@ export default async function BlogIndex() {
         )}
 
         <section className="blog-section">
-          <h2 className="blog-section-title">Stories</h2>
-          {stories.length === 0 && !featured ? (
+          <h2 className="blog-section-title">All stories</h2>
+          {stories.length === 0 ? (
             <p className="blog-empty">
               No posts yet. The first one is being written.
-            </p>
-          ) : stories.length === 0 ? (
-            <p className="blog-empty">
-              That&rsquo;s the only post for now. More on the way.
             </p>
           ) : (
             <ul className="story-list">

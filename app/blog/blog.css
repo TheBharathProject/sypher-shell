@@ -29,7 +29,10 @@
 .blog-root > * { position: relative; z-index: 1; }
 
 /* —————————————————————————————————————————————————————
-   Blog header (sticky-ish, replaces the sypher.in dark header)
+   Blog header — publication masthead.
+   Two rows: brand (wordmark + context line) on top, tab nav on
+   bottom. A single 1px rule underlines the whole header; active
+   tab's 2px underline visually merges with that rule.
    ————————————————————————————————————————————————————— */
 .blog-header {
   background: #ffffff;
@@ -38,76 +41,138 @@
 .blog-header-inner {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 28px 32px 0;
+  padding: 36px 32px 0;
+}
+@media (max-width: 640px) {
+  .blog-header-inner { padding: 24px 20px 0; }
+}
+
+/* —— Row 1: brand —————————————————————————————————————— */
+.blog-header-brand {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 6px;
+  padding-bottom: 24px;
 }
-@media (min-width: 800px) {
-  .blog-header-inner {
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
-    padding: 32px 32px 0;
-    gap: 32px;
-  }
+@media (max-width: 640px) {
+  .blog-header-brand { padding-bottom: 16px; gap: 4px; }
 }
 
 .blog-wordmark {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   text-decoration: none;
   color: #1a1a1a;
+  width: fit-content;
 }
 .blog-wordmark-text {
   font-family: Georgia, "Times New Roman", serif;
   font-weight: 700;
-  font-size: clamp(36px, 5vw, 56px);
-  letter-spacing: -0.02em;
-  line-height: 1;
+  font-size: clamp(40px, 6vw, 64px);
+  letter-spacing: -0.025em;
+  line-height: 0.95;
 }
-.blog-wordmark-dot {
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  border-radius: 999px;
-  background: #4338ca;
-  position: relative;
-  flex-shrink: 0;
+.blog-wordmark-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a1a;
+  opacity: 0.78;
   margin-bottom: 6px;
+  transition: opacity 200ms ease, transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.blog-wordmark-dot::after {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  border-radius: 999px;
-  background: #ffffff;
+.blog-wordmark:hover .blog-wordmark-mark {
+  opacity: 1;
+  transform: rotate(-12deg);
 }
 
+/* default tagline — italic serif, muted */
+.blog-header-tagline {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #6b6b6b;
+  margin: 0;
+}
+.blog-header-tagline em {
+  font-style: italic;
+}
+
+/* topic-mode replaces the tagline with a contextual breadcrumb */
+.blog-header-context {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+.blog-header-context-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b6b6b;
+}
+.blog-header-context-rule {
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  background: #d0d0d0;
+}
+.blog-header-context-value {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 18px;
+  color: #1a1a1a;
+  letter-spacing: -0.005em;
+}
+.blog-header-context-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-left: 4px;
+  border-radius: 999px;
+  background: transparent;
+  color: #6b6b6b;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1;
+  transition: background 160ms ease, color 160ms ease;
+}
+.blog-header-context-clear:hover {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+/* —— Row 2: tabs ——————————————————————————————————————— */
 .blog-tabs {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 4px;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   font-size: 15px;
-  border-bottom: 1px solid transparent;
   flex-wrap: wrap;
-}
-@media (min-width: 800px) {
-  .blog-tabs { padding-bottom: 4px; }
+  margin-bottom: -1px; /* lets active underline merge into the header bottom rule */
 }
 
 .blog-tab {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 12px 0;
+  padding: 14px 14px;
   color: #6b6b6b;
   text-decoration: none;
   border-bottom: 2px solid transparent;
-  transition: color 160ms ease, border-color 160ms ease;
+  transition: color 160ms ease, border-color 200ms ease;
+  position: relative;
 }
+.blog-tab:first-child { padding-left: 0; }
+
 .blog-tab:hover {
   color: #1a1a1a;
 }
@@ -116,13 +181,27 @@
   font-weight: 600;
   border-bottom-color: #1a1a1a;
 }
-.blog-tab-prefix {
-  color: #6b6b6b;
-  font-weight: 400;
-  margin-right: 2px;
-}
+
+/* external link sits at the right edge */
 .blog-tab-external {
   margin-left: auto;
+  color: #6b6b6b;
+  font-weight: 400;
+}
+.blog-tab-external:hover { color: #1a1a1a; }
+.blog-tab-arrow {
+  display: inline-block;
+  font-size: 13px;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.blog-tab-external:hover .blog-tab-arrow {
+  transform: translate(2px, -2px);
+}
+
+@media (max-width: 540px) {
+  .blog-tab { padding: 12px 10px; font-size: 14px; }
+  .blog-tab:first-child { padding-left: 0; }
+  .blog-wordmark-mark svg { width: 16px; height: 16px; }
 }
 
 /* —————————————————————————————————————————————————————
@@ -189,65 +268,67 @@
 }
 
 /* —————————————————————————————————————————————————————
-   Featured card
+   Featured card — compact, sits beside content not above it
    ————————————————————————————————————————————————————— */
 .featured-card {
   display: grid;
-  grid-template-columns: 180px 1fr 36px;
-  gap: 28px;
+  grid-template-columns: 96px 1fr auto;
+  gap: 18px;
   align-items: center;
   border: 1px solid #e6e6e6;
-  border-radius: 10px;
-  background: #fafafa;
-  padding: 28px;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 16px 18px;
   text-decoration: none;
   color: inherit;
-  transition: border-color 200ms ease, background 200ms ease;
+  transition: border-color 160ms ease, background 160ms ease;
 }
 .featured-card:hover {
   border-color: #1a1a1a;
-  background: #ffffff;
+  background: #fafafa;
 }
-@media (max-width: 720px) {
+@media (max-width: 540px) {
   .featured-card {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 20px;
+    grid-template-columns: 64px 1fr;
+    gap: 14px;
+    padding: 14px;
   }
 }
 
-.featured-card-body {
-  min-width: 0;
-}
+.featured-card-body { min-width: 0; }
+
 .featured-card-title {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(22px, 2.4vw, 28px);
+  font-size: 19px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.25;
   letter-spacing: -0.01em;
   color: #1a1a1a;
-  margin: 0 0 10px 0;
+  margin: 0 0 4px 0;
 }
 .featured-card-description {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
-  color: #4a4a4a;
-  margin: 0 0 14px 0;
+  color: #5a5a5a;
+  margin: 0 0 6px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .featured-card-meta {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   color: #6b6b6b;
   margin: 0;
 }
 
 .featured-card-arrow {
-  font-size: 22px;
-  color: #1a1a1a;
-  align-self: end;
-  justify-self: end;
+  font-size: 16px;
+  color: #6b6b6b;
 }
-@media (max-width: 720px) {
+.featured-card:hover .featured-card-arrow { color: #1a1a1a; }
+@media (max-width: 540px) {
   .featured-card-arrow { display: none; }
 }
 
@@ -383,24 +464,24 @@
   .thumb-card { max-width: 88px; height: 88px; }
 }
 .thumb-featured {
-  width: 180px;
-  height: 180px;
+  width: 96px;
+  height: 96px;
 }
-@media (max-width: 720px) {
-  .thumb-featured {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    height: auto;
-  }
+@media (max-width: 540px) {
+  .thumb-featured { width: 64px; height: 64px; }
 }
 .thumb-letter {
   font-family: Georgia, "Times New Roman", serif;
   font-weight: 700;
-  font-size: 64px;
+  font-size: 44px;
   line-height: 1;
   letter-spacing: -0.04em;
 }
 .thumb-card .thumb-letter { font-size: 44px; }
+.thumb-featured .thumb-letter { font-size: 36px; }
+@media (max-width: 540px) {
+  .thumb-featured .thumb-letter { font-size: 26px; }
+}
 
 /* —————————————————————————————————————————————————————
    Single post page (post-shell)
