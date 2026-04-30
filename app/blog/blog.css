@@ -1,5 +1,5 @@
 /* —————————————————————————————————————————————————————
-   Blog — clean, readable, Medium-style.
+   Blog — clean Medium-style.
    Overrides the dark editorial-cipher palette for /blog/* only.
    ————————————————————————————————————————————————————— */
 
@@ -12,17 +12,12 @@
   line-height: 1.7;
 }
 
-.blog-root * {
-  /* let blog override the global selection styling too */
-  selector: initial;
-}
-
 .blog-root ::selection {
   background: #d3eaff;
   color: #1a1a1a;
 }
 
-/* hide the global grain + radial bg layers behind a clean canvas */
+/* hide global grain layer */
 .blog-root::before {
   content: "";
   position: fixed;
@@ -31,25 +26,396 @@
   z-index: 0;
   pointer-events: none;
 }
-.blog-root > * {
-  position: relative;
-  z-index: 1;
+.blog-root > * { position: relative; z-index: 1; }
+
+/* —————————————————————————————————————————————————————
+   Blog header (sticky-ish, replaces the sypher.in dark header)
+   ————————————————————————————————————————————————————— */
+.blog-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e6e6e6;
+}
+.blog-header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+@media (min-width: 800px) {
+  .blog-header-inner {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 32px 32px 0;
+    gap: 32px;
+  }
 }
 
+.blog-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #1a1a1a;
+}
+.blog-wordmark-text {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  font-size: clamp(36px, 5vw, 56px);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.blog-wordmark-dot {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #4338ca;
+  position: relative;
+  flex-shrink: 0;
+  margin-bottom: 6px;
+}
+.blog-wordmark-dot::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+.blog-tabs {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  border-bottom: 1px solid transparent;
+  flex-wrap: wrap;
+}
+@media (min-width: 800px) {
+  .blog-tabs { padding-bottom: 4px; }
+}
+
+.blog-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 0;
+  color: #6b6b6b;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+.blog-tab:hover {
+  color: #1a1a1a;
+}
+.blog-tab-active {
+  color: #1a1a1a;
+  font-weight: 600;
+  border-bottom-color: #1a1a1a;
+}
+.blog-tab-prefix {
+  color: #6b6b6b;
+  font-weight: 400;
+  margin-right: 2px;
+}
+.blog-tab-external {
+  margin-left: auto;
+}
+
+/* —————————————————————————————————————————————————————
+   Main + sections
+   ————————————————————————————————————————————————————— */
+.blog-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 32px 96px;
+}
+@media (max-width: 640px) {
+  .blog-main { padding: 36px 20px 64px; }
+}
+
+.blog-hero {
+  margin-bottom: 56px;
+}
+.blog-hero-kicker {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6b6b6b;
+  margin: 0 0 8px 0;
+}
+.blog-hero-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  font-size: clamp(36px, 5vw, 52px);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #1a1a1a;
+  margin: 0 0 12px 0;
+}
+.blog-hero-lede {
+  font-size: 18px;
+  line-height: 1.55;
+  color: #5a5a5a;
+  margin: 0;
+  max-width: 580px;
+}
+
+.blog-section {
+  margin-bottom: 56px;
+}
+.blog-section-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1a1a1a;
+  margin: 0 0 20px 0;
+  text-transform: none;
+}
+
+.blog-empty {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  color: #6b6b6b;
+  background: #fafafa;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+/* —————————————————————————————————————————————————————
+   Featured card
+   ————————————————————————————————————————————————————— */
+.featured-card {
+  display: grid;
+  grid-template-columns: 180px 1fr 36px;
+  gap: 28px;
+  align-items: center;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  background: #fafafa;
+  padding: 28px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+.featured-card:hover {
+  border-color: #1a1a1a;
+  background: #ffffff;
+}
+@media (max-width: 720px) {
+  .featured-card {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
+  }
+}
+
+.featured-card-body {
+  min-width: 0;
+}
+.featured-card-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(22px, 2.4vw, 28px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #1a1a1a;
+  margin: 0 0 10px 0;
+}
+.featured-card-description {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #4a4a4a;
+  margin: 0 0 14px 0;
+}
+.featured-card-meta {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  color: #6b6b6b;
+  margin: 0;
+}
+
+.featured-card-arrow {
+  font-size: 22px;
+  color: #1a1a1a;
+  align-self: end;
+  justify-self: end;
+}
+@media (max-width: 720px) {
+  .featured-card-arrow { display: none; }
+}
+
+/* —————————————————————————————————————————————————————
+   Topic pills
+   ————————————————————————————————————————————————————— */
+.topic-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.topic-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #f4f4f4;
+  border: 1px solid transparent;
+  color: #1a1a1a;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+.topic-pill:hover {
+  background: #eaeaea;
+}
+.topic-pill-active {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+.topic-pill-active:hover {
+  background: #1a1a1a;
+}
+.topic-pill-count {
+  font-size: 12px;
+  color: inherit;
+  opacity: 0.55;
+}
+
+/* —————————————————————————————————————————————————————
+   Story cards (the list of posts)
+   ————————————————————————————————————————————————————— */
+.story-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0;
+}
+.story-list > li {
+  border-bottom: 1px solid #eaeaea;
+}
+.story-list > li:first-child {
+  border-top: 1px solid #eaeaea;
+}
+
+.story-card {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 24px;
+  align-items: center;
+  padding: 24px 0;
+  text-decoration: none;
+  color: inherit;
+}
+@media (max-width: 540px) {
+  .story-card {
+    grid-template-columns: 1fr 88px;
+    gap: 16px;
+    padding: 20px 0;
+  }
+}
+
+.story-card-text {
+  min-width: 0;
+}
+.story-card-kicker {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b6b6b;
+  margin: 0 0 6px 0;
+}
+.story-card-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #1a1a1a;
+  margin: 0 0 6px 0;
+}
+.story-card:hover .story-card-title {
+  text-decoration: underline;
+}
+.story-card-description {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #4a4a4a;
+  margin: 0 0 8px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.story-card-meta {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  color: #6b6b6b;
+  margin: 0;
+}
+
+/* —————————————————————————————————————————————————————
+   Thumbnail blocks (placeholder for hero images)
+   ————————————————————————————————————————————————————— */
+.thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+.thumb-card {
+  width: 100%;
+  max-width: 120px;
+  height: 120px;
+}
+@media (max-width: 540px) {
+  .thumb-card { max-width: 88px; height: 88px; }
+}
+.thumb-featured {
+  width: 180px;
+  height: 180px;
+}
+@media (max-width: 720px) {
+  .thumb-featured {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+}
+.thumb-letter {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.thumb-card .thumb-letter { font-size: 44px; }
+
+/* —————————————————————————————————————————————————————
+   Single post page (post-shell)
+   Reuses the existing post template; just sits below BlogHeader now.
+   ————————————————————————————————————————————————————— */
 .post-shell {
   max-width: 680px;
   margin: 0 auto;
-  padding: 64px 24px 96px;
+  padding: 48px 24px 96px;
 }
-
 @media (max-width: 640px) {
   .blog-root { font-size: 17px; }
   .post-shell { padding: 32px 20px 64px; }
 }
 
-/* —————————————————————————————————————————————————————
-   Header bits (kicker, title, lede, meta)
-   ————————————————————————————————————————————————————— */
 .post-kicker {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   font-size: 14px;
@@ -57,14 +423,8 @@
   margin: 0 0 24px 0;
   line-height: 1.4;
 }
-.post-kicker a {
-  color: #6b6b6b;
-  text-decoration: none;
-}
-.post-kicker a:hover {
-  color: #1a1a1a;
-  text-decoration: underline;
-}
+.post-kicker a { color: #6b6b6b; text-decoration: none; }
+.post-kicker a:hover { color: #1a1a1a; text-decoration: underline; }
 
 .post-page-title {
   font-family: Georgia, "Times New Roman", serif;
@@ -80,7 +440,7 @@
   font-size: 20px;
   line-height: 1.5;
   color: #5a5a5a;
-  margin: 0 0 24px 0;
+  margin: 0 0 16px 0;
   font-style: italic;
 }
 
@@ -88,9 +448,32 @@
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   font-size: 14px;
   color: #6b6b6b;
-  margin: 0;
+  margin: 0 0 16px 0;
 }
 
+.post-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 24px 0;
+}
+.post-tag-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f2f2f2;
+  color: #5a5a5a;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  text-decoration: none;
+}
+.post-tag-link:hover {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+/* legacy span for inline tag chip (kept for any old usages) */
 .post-tag {
   display: inline-block;
   background: #f2f2f2;
@@ -102,45 +485,6 @@
 }
 
 /* —————————————————————————————————————————————————————
-   Index list
-   ————————————————————————————————————————————————————— */
-.post-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.post-list-item {
-  border-top: 1px solid #eaeaea;
-  padding: 28px 0;
-}
-.post-list-item:last-child {
-  border-bottom: 1px solid #eaeaea;
-}
-.post-list-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-.post-list-link:hover .post-list-title {
-  text-decoration: underline;
-}
-.post-list-title {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.25;
-  color: #1a1a1a;
-  margin: 0 0 8px 0;
-  letter-spacing: -0.01em;
-}
-.post-list-description {
-  font-size: 17px;
-  line-height: 1.55;
-  color: #5a5a5a;
-  margin: 0 0 8px 0;
-}
-
-/* —————————————————————————————————————————————————————
    The post body itself
    ————————————————————————————————————————————————————— */
 .post-prose {
@@ -148,10 +492,7 @@
   line-height: 1.7;
   color: #1a1a1a;
 }
-
-.post-prose > * + * {
-  margin-top: 1.4em;
-}
+.post-prose > * + * { margin-top: 1.4em; }
 
 .post-prose h1,
 .post-prose h2,
@@ -163,22 +504,9 @@
   letter-spacing: -0.01em;
   line-height: 1.25;
 }
-
-.post-prose h2 {
-  font-size: 28px;
-  margin-top: 2em;
-  margin-bottom: 0.5em;
-}
-
-.post-prose h3 {
-  font-size: 22px;
-  margin-top: 1.6em;
-  margin-bottom: 0.4em;
-}
-
-.post-prose p {
-  margin: 0;
-}
+.post-prose h2 { font-size: 28px; margin-top: 2em; margin-bottom: 0.5em; }
+.post-prose h3 { font-size: 22px; margin-top: 1.6em; margin-bottom: 0.4em; }
+.post-prose p { margin: 0; }
 
 .post-prose a {
   color: #1a1a1a;
@@ -186,29 +514,14 @@
   text-decoration-color: #c0c0c0;
   text-underline-offset: 3px;
 }
-.post-prose a:hover {
-  text-decoration-color: #1a1a1a;
-}
-
-.post-prose strong {
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.post-prose em {
-  font-style: italic;
-}
+.post-prose a:hover { text-decoration-color: #1a1a1a; }
+.post-prose strong { font-weight: 700; color: #1a1a1a; }
+.post-prose em { font-style: italic; }
 
 .post-prose ul,
-.post-prose ol {
-  padding-left: 28px;
-}
-.post-prose li {
-  margin: 0.5em 0;
-}
-.post-prose li::marker {
-  color: #6b6b6b;
-}
+.post-prose ol { padding-left: 28px; }
+.post-prose li { margin: 0.5em 0; }
+.post-prose li::marker { color: #6b6b6b; }
 
 .post-prose blockquote {
   border-left: 3px solid #d0d0d0;
@@ -217,9 +530,7 @@
   font-style: italic;
   color: #4a4a4a;
 }
-.post-prose blockquote p {
-  margin: 0;
-}
+.post-prose blockquote p { margin: 0; }
 
 .post-prose code {
   font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
@@ -252,7 +563,6 @@
   border-radius: 4px;
   margin: 1.6em 0;
 }
-
 .post-prose hr {
   border: 0;
   border-top: 1px solid #eaeaea;
@@ -271,13 +581,10 @@
   padding: 10px 14px;
   text-align: left;
 }
-.post-prose th {
-  background: #fafafa;
-  font-weight: 700;
-}
+.post-prose th { background: #fafafa; font-weight: 700; }
 
 /* —————————————————————————————————————————————————————
-   Footer
+   Post page footer (back link)
    ————————————————————————————————————————————————————— */
 .post-footer {
   margin-top: 64px;
@@ -290,7 +597,4 @@
   color: #6b6b6b;
   text-decoration: none;
 }
-.post-back:hover {
-  color: #1a1a1a;
-  text-decoration: underline;
-}
+.post-back:hover { color: #1a1a1a; text-decoration: underline; }

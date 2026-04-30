@@ -9,6 +9,12 @@ export interface BlogPost {
   date: string;
   tags: string[];
   readingMinutes: number;
+  featured: boolean;
+}
+
+export interface Category {
+  tag: string;
+  count: number;
 }
 
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
@@ -31,6 +37,7 @@ function readPost(filename: string): BlogPost {
     date: String(data.date ?? ""),
     tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
     readingMinutes: readingMinutesOf(content),
+    featured: Boolean(data.featured),
   };
 }
 
@@ -45,6 +52,50 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   const posts = await getBlogPosts();
   return posts.find((p) => p.slug === slug) ?? null;
+}
+
+/**
+ * Most-recent featured post (post with featured: true), or fall back
+ * to the latest post overall if nothing is marked featured.
+ */
+export async function getFeaturedPost(): Promise<BlogPost | null> {
+  const posts = await getBlogPosts();
+  if (posts.length === 0) return null;
+  return posts.find((p) => p.featured) ?? posts[0];
+}
+
+/**
+ * Posts excluding the featured one — for the "Stories" list.
+ */
+export async function getNonFeaturedPosts(): Promise<BlogPost[]> {
+  const posts = await getBlogPosts();
+  const featured = await getFeaturedPost();
+  if (!featured) return posts;
+  return posts.filter((p) => p.slug !== featured.slug);
+}
+
+/**
+ * Unique tags with post counts, sorted by count desc.
+ */
+export async function getCategories(): Promise<Category[]> {
+  const posts = await getBlogPosts();
+  const counts = new Map<string, number>();
+  for (const post of posts) {
+    for (const tag of post.tags) {
+      counts.set(tag, (counts.get(tag) ?? 0) + 1);
+    }
+  }
+  return Array.from(counts.entries())
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
+}
+
+/**
+ * Posts that include a given tag.
+ */
+export async function getPostsByTag(tag: string): Promise<BlogPost[]> {
+  const posts = await getBlogPosts();
+  return posts.filter((p) => p.tags.includes(tag));
 }
 
 /**
