@@ -87,7 +87,7 @@ The tool's marketing page is now reachable at `sypher.in/my-new-tool` (currently
 
 ## Phase 3: Ship the marketing page (2–4 hours)
 
-Before any backend work — get the SEO surface live.
+Before any backend work — get the SEO surface live. **Read [`design-system.md`](./design-system.md) before writing any markup** — the marketing page must match the shell visually (cream canvas, Instrument Serif + Geist, single saffron accent, centered single-column layout).
 
 - [ ] `app/page.tsx`: hero, value prop, demo (static screenshot or GIF is fine), pricing, FAQ — basePath adds `/<slug>` automatically
 - [ ] All metadata fields populated (`tool-page-metadata.ts` factory)
