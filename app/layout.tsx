@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Geist } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "./_components/analytics";
 
 const instrumentSerif = Instrument_Serif({
   variable: "--font-display",
@@ -64,6 +65,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
         {children}
+        <Analytics />
       </body>
     </html>
   );
