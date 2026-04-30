@@ -33,29 +33,41 @@
    Two rows: brand (wordmark + context line) on top, tab nav on
    bottom. A single 1px rule underlines the whole header; active
    tab's 2px underline visually merges with that rule.
+   Sticky: stays pinned to top on scroll with a soft frosted glass.
    ————————————————————————————————————————————————————— */
 .blog-header {
-  background: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
   border-bottom: 1px solid #e6e6e6;
 }
+/* fallback for browsers without backdrop-filter */
+@supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+  .blog-header { background: #ffffff; }
+}
 .blog-header-inner {
-  max-width: 1100px;
+  /* Full-bleed-ish: wider than the content column below so the
+     wordmark sits close to the left edge of the viewport. */
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 36px 32px 0;
+  padding: 24px 32px 0;
 }
 @media (max-width: 640px) {
-  .blog-header-inner { padding: 24px 20px 0; }
+  .blog-header-inner { padding: 18px 20px 0; }
 }
 
 /* —— Row 1: brand —————————————————————————————————————— */
 .blog-header-brand {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding-bottom: 24px;
+  gap: 4px;
+  padding-bottom: 18px;
 }
 @media (max-width: 640px) {
-  .blog-header-brand { padding-bottom: 16px; gap: 4px; }
+  .blog-header-brand { padding-bottom: 12px; gap: 2px; }
 }
 
 .blog-wordmark {
