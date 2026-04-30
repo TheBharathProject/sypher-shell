@@ -9,6 +9,7 @@
  * (e.g., reel-hooks repo serves /reel-hooks, not /). See docs/sypher-factory/repo-structure.md.
  */
 
+import createMDX from '@next/mdx';
 import type { NextConfig } from 'next';
 
 interface ToolRoute {
@@ -24,6 +25,7 @@ const tools: ToolRoute[] = [
 
 const config: NextConfig = {
   reactStrictMode: true,
+  pageExtensions: ['ts', 'tsx', 'mdx'],
 
   async rewrites() {
     // Two rules per tool:
@@ -69,4 +71,12 @@ const config: NextConfig = {
   },
 };
 
-export default config;
+const withMDX = createMDX({
+  // Plugin paths as strings — Turbopack/webpack serializer requires this.
+  options: {
+    remarkPlugins: [['remark-gfm', {}]],
+    rehypePlugins: [['rehype-slug', {}]],
+  },
+});
+
+export default withMDX(config);

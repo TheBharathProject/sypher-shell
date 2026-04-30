@@ -11,16 +11,19 @@ export function SiteHeader() {
         </Link>
 
         <nav className="t-mono flex items-center gap-5 text-[11px] uppercase tracking-[0.18em] text-bone-muted">
-          <a href="#tools" className="hover:text-bone transition-colors">
+          <a href="/#tools" className="hover:text-bone transition-colors">
             tools
           </a>
-          <a href="#manifesto" className="hidden hover:text-bone transition-colors sm:inline">
+          <Link href="/blog" className="hover:text-bone transition-colors">
+            blog
+          </Link>
+          <a href="/#manifesto" className="hidden hover:text-bone transition-colors sm:inline">
             manifesto
           </a>
-          <a href="#maker" className="hidden hover:text-bone transition-colors sm:inline">
+          <a href="/#maker" className="hidden hover:text-bone transition-colors sm:inline">
             maker
           </a>
-          <a href="#waitlist" className="text-bone hover:text-decode transition-colors">
+          <a href="/#waitlist" className="text-bone hover:text-decode transition-colors">
             waitlist&nbsp;↗
           </a>
         </nav>

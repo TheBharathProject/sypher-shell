@@ -20,7 +20,7 @@ export function SiteFooter() {
             <ul className="t-mono grid grid-cols-2 gap-x-4 gap-y-1.5 text-[12px] md:text-[13px]">
               <li>
                 <a
-                  href="#manifesto"
+                  href="/#manifesto"
                   className="text-bone-muted hover:text-bone transition-colors"
                 >
                   manifesto
@@ -28,7 +28,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href="#tools"
+                  href="/#tools"
                   className="text-bone-muted hover:text-bone transition-colors"
                 >
                   tools
@@ -36,7 +36,15 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href="#maker"
+                  href="/blog"
+                  className="text-bone-muted hover:text-bone transition-colors"
+                >
+                  blog
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/#maker"
                   className="text-bone-muted hover:text-bone transition-colors"
                 >
                   maker
