@@ -8,14 +8,15 @@ This folder contains decisions, configs, and templates. Copy it into a new repo 
 
 1. [`architecture.md`](./architecture.md) — the core system design (domains, repos, auth, data flow)
 2. [`hosting.md`](./hosting.md) — Vercel + Cloudflare + Supabase setup
-3. [`repo-structure.md`](./repo-structure.md) — shell repo + per-tool repos
-4. [`github-and-deployment.md`](./github-and-deployment.md) — CI, branch protection, deploy pipeline
-5. [`auth-and-billing.md`](./auth-and-billing.md) — Supabase auth + Stripe + subscription gating
-6. [`design-system.md`](./design-system.md) — visual language, tokens, component patterns
-7. [`seo-checklist.md`](./seo-checklist.md) — what every tool must ship with for SEO
-8. [`pricing-economics.md`](./pricing-economics.md) — ₹99 tier unit economics
-9. [`new-tool-playbook.md`](./new-tool-playbook.md) — step-by-step for shipping tool N+1
-10. [`tools-roadmap.md`](./tools-roadmap.md) — queue of tool ideas
+3. [`self-hosted-postgres.md`](./self-hosted-postgres.md) — Postgres 18 on the Oracle Cloud VM (Reel Hooks, future worker-heavy tools)
+4. [`repo-structure.md`](./repo-structure.md) — shell repo + per-tool repos
+5. [`github-and-deployment.md`](./github-and-deployment.md) — CI, branch protection, deploy pipeline
+6. [`auth-and-billing.md`](./auth-and-billing.md) — Supabase auth + Stripe + subscription gating
+7. [`design-system.md`](./design-system.md) — visual language, tokens, component patterns
+8. [`seo-checklist.md`](./seo-checklist.md) — what every tool must ship with for SEO
+9. [`pricing-economics.md`](./pricing-economics.md) — ₹99 tier unit economics
+10. [`new-tool-playbook.md`](./new-tool-playbook.md) — step-by-step for shipping tool N+1
+11. [`tools-roadmap.md`](./tools-roadmap.md) — queue of tool ideas
 
 ## Reference files
 
