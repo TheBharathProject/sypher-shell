@@ -128,17 +128,149 @@ For now, all DB writes happen from workers running **on this VM** (e.g., `reel-d
 
 **Action item for the future:** add `pg_dump` to a tar in `~/pg-backups/`, retained for 14 days, run nightly via cron. Push the latest dump to Cloudflare R2 (free 10 GB) for off-VM redundancy. Estimated: ~30 min of work; ~₹0/mo at expected scale. Don't ship paying customers without this.
 
-## Common operations cheatsheet
+## Accessing the database
+
+Four paths, in order of how often each gets used.
+
+### A. From inside the VM (admin / ad-hoc)
+
+Already SSH'd in? Skip the network entirely:
+
+```bash
+# As app user (preferred for queries)
+docker exec -it sypher-postgres psql -U sypher -d sypher
+
+# As superuser (for CREATE ROLE, GRANT, extensions)
+docker exec -it sypher-postgres psql -U postgres -d sypher
+```
+
+### B. From your Mac via SSH tunnel + psql (daily driver)
+
+Postgres on the VM looks like a local Postgres on your Mac, without exposing port 5432 publicly.
+
+**One-time — install psql on Mac:**
+
+```bash
+brew install libpq
+echo 'export PATH="/opt/homebrew/opt/libpq/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+psql --version
+```
+
+**One-time — add a tunnel to `~/.ssh/config`:**
+
+```
+Host sypher-vm
+  HostName 144.24.97.242
+  User ubuntu
+  IdentityFile ~/Downloads/<your-oci-key>.key
+  ServerAliveInterval 60
+  LocalForward 5432 127.0.0.1:5432
+```
+
+The `LocalForward` line forwards `localhost:5432` on your Mac through SSH to `localhost:5432` on the VM.
+
+**Daily use:**
+
+```bash
+# Terminal 1 — open the tunnel (just an SSH session; leave it running)
+ssh sypher-vm
+
+# Terminal 2 — connect from your Mac
+psql "postgresql://sypher:<password>@127.0.0.1:5432/sypher"
+```
+
+Closing the SSH session in Terminal 1 closes the tunnel.
+
+### C. From a GUI client (TablePlus / DBeaver / Postico)
+
+GUI clients handle the tunnel automatically — no separate SSH session needed.
+
+**TablePlus → New Connection → PostgreSQL:**
+
+| Field | Value |
+|---|---|
+| Host | `127.0.0.1` |
+| Port | `5432` |
+| User | `sypher` |
+| Password | (from `~/.pg-secret`) |
+| Database | `sypher` |
+| **Over SSH** | toggle ON |
+| SSH Host | VM's public IP |
+| SSH User | `ubuntu` |
+| SSH Key | path to OCI private key |
+
+Test → Save → Connect. Same fields work in DBeaver, Postico, pgAdmin.
+
+### D. From application code (the tools themselves)
+
+Apps **on the VM** (workers like the future Reel Hooks pipeline next to `reel-downloader`):
+
+```python
+import os, asyncpg
+conn = await asyncpg.connect(os.environ["DATABASE_URL"])
+```
+
+DATABASE_URL is sourced from the container's env file, which is generated from `~/.pg-secret`.
+
+Apps **on Vercel** (e.g., dashboards) **never connect directly to Postgres**. They call the internal API service we'll build (small FastAPI/Node adapter on the VM) which proxies queries. The DB stays behind Caddy + the API service; secrets stay off the edge.
+
+## Inspecting the database
+
+When you connect (any method), useful inspection queries:
+
+```sql
+-- Every database on this Postgres cluster
+SELECT datname FROM pg_database ORDER BY datname;
+
+-- Every user-created table in the current database (excludes system tables)
+SELECT schemaname, tablename, tableowner
+FROM pg_tables
+WHERE schemaname NOT IN ('pg_catalog', 'information_schema')
+ORDER BY schemaname, tablename;
+
+-- Every schema in the current database
+SELECT schema_name FROM information_schema.schemata
+WHERE schema_name NOT IN ('pg_catalog', 'information_schema', 'pg_toast');
+
+-- Row count per table
+SELECT schemaname, relname AS table, n_live_tup AS rows
+FROM pg_stat_user_tables ORDER BY n_live_tup DESC;
+
+-- Database size
+SELECT pg_size_pretty(pg_database_size('sypher'));
+
+-- All roles + their attributes
+SELECT rolname, rolsuper, rolcreatedb, rolcreaterole, rolcanlogin
+FROM pg_roles WHERE rolname NOT LIKE 'pg_%';
+```
+
+In `psql` shell, the same things via shortcuts: `\l` (databases), `\dt` (tables), `\dn` (schemas), `\du` (roles), `\d <table>` (describe).
+
+In TablePlus, the left sidebar shows tables for the **current connected database only**. To see another database (e.g., `postgres` admin DB), create a separate connection with that database name.
+
+## Schema convention for tools
+
+Each tool that writes to this DB owns its own schema:
+
+```
+sypher (database)
+├── public            (default; keep mostly empty)
+├── reel_hooks        (Tool 01 — owned by sypher-tool-reel-hooks)
+│   ├── tracked_profiles
+│   ├── reels
+│   ├── transcripts
+│   └── hook_analyses
+└── <future tools each get their own schema>
+```
+
+Migrations live in **the tool's repo** (e.g., `sypher-tool-reel-hooks/db/migrations/`), not here. This doc only covers the cluster. Tools manage their own schemas via their own migration tool of choice (`sqitch`, `node-pg-migrate`, raw SQL files, etc.).
+
+## Common ops cheatsheet
 
 ```bash
 # Tail logs
 docker logs -f --tail 50 sypher-postgres
-
-# Open a psql shell as superuser (admin work)
-docker exec -it sypher-postgres psql -U postgres -d sypher
-
-# Open a psql shell as the app user (testing / queries)
-docker exec -it sypher-postgres psql -U sypher -d sypher
 
 # Restart Postgres without data loss
 docker restart sypher-postgres
@@ -146,17 +278,21 @@ docker restart sypher-postgres
 # Stop + remove container (data persists in ~/pg-data)
 docker rm -f sypher-postgres
 
-# Recreate container from existing data — same `docker run` command works,
-# Postgres won't re-init if ~/pg-data already has files
+# Recreate container from existing data — same `docker run` command;
+# Postgres skips re-init if ~/pg-data already has files
 
-# Check disk usage of the database
+# Disk usage
 du -sh ~/pg-data
-docker exec sypher-postgres psql -U sypher -d sypher -c "SELECT pg_size_pretty(pg_database_size('sypher'));"
+docker exec sypher-postgres psql -U sypher -d sypher \
+  -c "SELECT pg_size_pretty(pg_database_size('sypher'));"
+
+# Quick sanity test that creates → reads → drops a table
+docker exec sypher-postgres psql -U sypher -d sypher -c "
+  CREATE TABLE _ping (id serial primary key, at timestamptz default now());
+  INSERT INTO _ping DEFAULT VALUES RETURNING *;
+  DROP TABLE _ping;
+"
 ```
-
-## When to add a new tool's tables
-
-Each tool that uses this DB owns its own schema (or table prefix). Reel Hooks' tables live under `reel_hooks_*` or in a dedicated `reel_hooks` schema. Migrations belong in the tool's repo (`sypher-tool-reel-hooks/db/migrations/`), not here. This doc only covers the cluster — schema management is per-tool.
 
 ## Decisions log
 
