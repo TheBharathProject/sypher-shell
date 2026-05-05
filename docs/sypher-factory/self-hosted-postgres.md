@@ -24,9 +24,10 @@ The VM is shared with existing workloads. **Do not disturb these:**
 | Service | Port | Notes |
 |---|---|---|
 | n8n (workflow automation) | `127.0.0.1:5678` | Docker container `n8n-n8n-1`, owned by `opc` user |
-| `reel-downloader` Python API | `127.0.0.1:8001` | Docker container `reel-api`, uvicorn inside container |
-| Caddy reverse proxy | `:80`, `:443` (public) | Fronts the above; will also front the future sypher API |
+| `reel-downloader` Python API | `127.0.0.1:8001` | Docker container `reel-api`, uvicorn inside container — legacy, candidate for decommissioning when Reel Hooks ships in Go |
+| Caddy reverse proxy | `:80`, `:443` (public) | Fronts everything; provisions Let's Encrypt certs automatically |
 | Postgres 18 (sypher) | `127.0.0.1:5432` | This setup |
+| `sypher-api` (Go) | `127.0.0.1:8002` | Live since 2026-05-06; behind Caddy at `https://api.sypher.in` |
 
 ## Postgres install
 
@@ -86,13 +87,41 @@ docker exec sypher-postgres psql -U postgres -c \
   "GRANT ALL PRIVILEGES ON DATABASE sypher TO sypher;"
 ```
 
-## Connection string
+## Connection strings — two paths, one DB
 
-```
-postgresql://sypher:<password>@127.0.0.1:5432/sypher
+The Postgres container is bound to `127.0.0.1:5432` on the host (loopback only — never publicly reachable). It's ALSO attached to a Docker network called `sypher-net` with the alias `postgres`. Two paths exist for two different consumers:
+
+| Consumer | Connection string | Why |
+|---|---|---|
+| Host processes + SSH-tunneled clients (`psql` from Mac, TablePlus, ad-hoc scripts) | `postgresql://sypher:<password>@127.0.0.1:5432/sypher` | Loopback binding stays for SSH-tunneled local dev. The published port is what the host `psql` connects to. |
+| Containers on the same VM (sypher-api, future tool workers) | `postgresql://sypher:<password>@postgres:5432/sypher` | Containers join `sypher-net`. Docker resolves the `postgres` alias to the Postgres container's IP on the bridge. No host-gateway hop, no `host.docker.internal` shenanigans. |
+
+The canonical DSN in `~/.pg-secret` uses the `127.0.0.1` form. Container deploy scripts (e.g. `sypher-api/scripts/deploy.sh`) rewrite that string at deploy time — `${DATABASE_URL/127.0.0.1/postgres}` — and pass the result into the container along with `--network sypher-net`.
+
+**Why we do NOT use `host.docker.internal`:**
+
+The earlier pattern was `--add-host=host.docker.internal:host-gateway` + DSN host `host.docker.internal`. That maps to the Docker bridge gateway IP (`172.17.0.1`), which IS the host. But Postgres only binds to `127.0.0.1` — the loopback interface — not to the bridge interface. So the container's connect attempt to `172.17.0.1:5432` returned "no route to host" because nothing was listening there. Verified the failure mode and migrated to `sypher-net` on 2026-05-05.
+
+The `sypher-net` approach is cleaner anyway: explicit container-to-container networking, no host-side firewall edge cases, and Postgres stays bound to localhost (slightly stronger defense in depth).
+
+`~/.pg-secret` lives at mode `0600`. **Never commit the password to code or `.env` files in git.**
+
+## Container networking — `sypher-net`
+
+```bash
+# One-time setup (idempotent — deploy scripts re-run this safely)
+docker network create sypher-net 2>/dev/null || true
+docker network connect --alias postgres sypher-net sypher-postgres 2>/dev/null || true
 ```
 
-Stored on the VM at `~/.pg-secret` (mode `0600`). When a service running on this VM needs DB access, source the secret file or copy `DATABASE_URL` into its env. **Never paste the password into committed code, .env files in git, or shared config.**
+Verify:
+
+```bash
+docker network inspect sypher-net --format '{{range .Containers}}{{.Name}} {{end}}'
+# Should print: sypher-postgres sypher-api
+```
+
+Future tools that need DB access do the same: `docker run --network sypher-net ...`. They all see Postgres at hostname `postgres`.
 
 ## Verify health
 
@@ -108,16 +137,17 @@ Expected: `accepting connections`, then a row showing user `sypher`, database `s
 
 **Postgres port 5432 is not exposed publicly. We will not expose it.** Direct DB access over the internet is not on the roadmap.
 
-When Vercel-hosted code (e.g., the Reel Hooks dashboard rendering live data) needs to read from this Postgres, the architecture is:
+The live architecture for Vercel-hosted code reaching DB-backed data:
 
 ```
-Vercel  →  https://api.sypher.in  →  Caddy on the VM  →  internal API service  →  Postgres
-                                       (already running)    (FastAPI/Node)         (localhost)
+Vercel  →  https://api.sypher.in  →  Caddy on the VM  →  sypher-api (Go)  →  Postgres
+                                       (TLS, vhost)        (sypher-net)       (sypher-net,
+                                                                              alias "postgres")
 ```
 
-The internal API service is a small adapter that runs on the VM, in the same network namespace as Postgres, exposes business endpoints (not raw SQL), and has rate-limiting + auth at the Caddy layer. We add this when we have a real consumer — i.e., when Reel Hooks ships its first dashboard.
+`sypher-api` is the internal API service. It runs on the VM in the `sypher-net` Docker network alongside `sypher-postgres`, exposes business endpoints (not raw SQL), and is the single integration point for Vercel-hosted code. Rate-limiting and auth-key validation happen at the Caddy + Go layers respectively.
 
-For now, all DB writes happen from workers running **on this VM** (e.g., `reel-downloader`), which means no public path is needed at all.
+This path is live as of 2026-05-06 for `/waitlist`. Future tools that need to surface DB-backed data on `sypher.in` (Reel Hooks dashboards, etc.) add new endpoints in `sypher-api` rather than adding new exposure paths to Postgres.
 
 ## Backups — explicit non-decision
 
@@ -204,16 +234,23 @@ Test → Save → Connect. Same fields work in DBeaver, Postico, pgAdmin.
 
 ### D. From application code (the tools themselves)
 
-Apps **on the VM** (workers like the future Reel Hooks pipeline next to `reel-downloader`):
+Apps **on the VM**, running in containers attached to the `sypher-net` network, connect to Postgres via the network alias `postgres`:
 
-```python
-import os, asyncpg
-conn = await asyncpg.connect(os.environ["DATABASE_URL"])
+```go
+// Go (sypher-api uses this exact pattern)
+pool, err := pgxpool.New(ctx, os.Getenv("DATABASE_URL"))
+// where DATABASE_URL = postgresql://sypher:<pw>@postgres:5432/sypher
 ```
 
-DATABASE_URL is sourced from the container's env file, which is generated from `~/.pg-secret`.
+```python
+# Python (legacy reel-Downloader, when migrated to sypher-net)
+conn = await asyncpg.connect(os.environ["DATABASE_URL"])
+# DATABASE_URL = postgresql://sypher:<pw>@postgres:5432/sypher
+```
 
-Apps **on Vercel** (e.g., dashboards) **never connect directly to Postgres**. They call the internal API service we'll build (small FastAPI/Node adapter on the VM) which proxies queries. The DB stays behind Caddy + the API service; secrets stay off the edge.
+The `~/.pg-secret` file uses the `127.0.0.1` form (host-local). Container deploy scripts (e.g. `sypher-api/scripts/deploy.sh`) rewrite `127.0.0.1` → `postgres` before injecting `DATABASE_URL` into the container. This keeps one canonical source-of-truth in `~/.pg-secret` while serving both consumer paths.
+
+Apps **on Vercel** (e.g., the homepage waitlist form, future dashboards) **never connect directly to Postgres**. They call `https://api.sypher.in/...` — Caddy proxies to `sypher-api` which proxies to Postgres. The DB stays inside the VM; secrets stay off the edge. Today this is the live path for the `/waitlist` endpoint.
 
 ## Inspecting the database
 
@@ -303,3 +340,5 @@ docker exec sypher-postgres psql -U sypher -d sypher -c "
 | 2026-05-04 | `postgres:18-alpine` image | ARM64 native, smaller footprint than Debian-based |
 | 2026-05-04 | Backups deferred | No real data yet. Re-evaluate before first paid user. |
 | 2026-05-04 | DB never exposed publicly | Workers run on the VM; Vercel reaches data via Caddy → internal API only |
+| 2026-05-05 | Migrate from `host.docker.internal` to `sypher-net` Docker network | host-gateway path failed because Postgres binds to loopback only, not docker0 bridge. Shared Docker network with `postgres` alias is cleaner, doesn't require firewall rules, and keeps Postgres bound to localhost (slightly stronger defense in depth). |
+| 2026-05-06 | `sypher-api` (Go) live behind Caddy at `https://api.sypher.in` | First real consumer of this Postgres. Replaces the never-deployed Python `sypher-api`. |

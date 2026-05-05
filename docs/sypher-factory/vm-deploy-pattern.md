@@ -105,13 +105,19 @@ Server containers always run with:
 
 ```
 --restart unless-stopped
---add-host=host.docker.internal:host-gateway
+--network sypher-net
 -p 127.0.0.1:<host-port>:8000
 ```
 
 - Restarts on host reboot, but not if you `docker stop` it manually
-- `host.docker.internal` resolves to the VM host so the container can reach Postgres on `127.0.0.1:5432`
-- Bound to localhost only — Caddy is the only public ingress
+- `--network sypher-net` puts the container on the shared internal Docker network. It reaches Postgres at hostname `postgres` (alias on `sypher-postgres`). See `self-hosted-postgres.md` for why this beats the older `--add-host=host.docker.internal:host-gateway` approach.
+- `-p 127.0.0.1:<host-port>:8000` binds the container's port to the host's loopback only. Caddy proxies the public traffic from `:443` to that loopback port. Container is never publicly reachable.
+
+For one-off jobs (migrations, ad-hoc scripts), use `--rm` instead of `-d` and reuse `--network sypher-net` so they can also see Postgres:
+
+```
+docker run --rm --network sypher-net <image> migrate
+```
 
 ## When to break this pattern
 
