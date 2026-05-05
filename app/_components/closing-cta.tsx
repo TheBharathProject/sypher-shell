@@ -1,3 +1,5 @@
+import { WaitlistForm } from "./waitlist-form";
+
 export function ClosingCta() {
   return (
     <section id="waitlist">
@@ -11,29 +13,7 @@ export function ClosingCta() {
           launch-only discount for the first 100. No spam, ever.
         </p>
 
-        <form
-          action="https://formspree.io/f/your_form_id"
-          method="POST"
-          className="mt-10 max-w-[440px] mx-auto flex flex-col sm:flex-row gap-2"
-          aria-label="Waitlist signup"
-        >
-          <label htmlFor="email" className="sr-only">
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            placeholder="you@inbox.in"
-            className="input-line"
-            autoComplete="email"
-          />
-          <button type="submit" className="btn btn-primary shrink-0">
-            Notify me
-            <span className="arrow" aria-hidden>→</span>
-          </button>
-        </form>
+        <WaitlistForm source="homepage_closing_cta" />
 
         <p className="mt-4 text-[13px] text-ink-faint">
           Or just{" "}
