@@ -119,6 +119,90 @@ For one-off jobs (migrations, ad-hoc scripts), use `--rm` instead of `-d` and re
 docker run --rm --network sypher-net <image> migrate
 ```
 
+## Caddy — the public ingress
+
+Every service on the VM that needs to be reachable from the internet sits behind Caddy. Caddy:
+
+- Owns ports `:80` and `:443`
+- Auto-provisions Let's Encrypt certificates per hostname (no manual cert handling)
+- Reverse-proxies each `<sub>.sypher.in` to a `127.0.0.1:<port>` listener
+- Adds a uniform set of security headers (HSTS, nosniff, Referrer-Policy)
+- Drops the `Server` header so we don't broadcast software versions
+
+Config lives at `/etc/caddy/Caddyfile`. One vhost block per hostname. Reloads are zero-downtime via `systemctl reload caddy` (existing in-flight connections finish on the old config).
+
+### The current vhost layout
+
+```caddyfile
+# n8n vhost (existing — workflow automation UI)
+n8n.sypher.in {
+    reverse_proxy 127.0.0.1:5678
+}
+
+# scraper vhost (existing — reel-downloader Python service)
+scraperinsta.sypher.in {
+    reverse_proxy 127.0.0.1:8001
+}
+
+# sypher-api (Go) — added 2026-05-06
+api.sypher.in {
+    request_body {
+        max_size 4MB
+    }
+
+    reverse_proxy 127.0.0.1:8002
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+
+    log {
+        output stdout
+        format json
+    }
+}
+```
+
+### Adding a new vhost (when a tool's API needs public exposure)
+
+In practice this should be rare — sypher-api is the modular monolith, so most "new public surface" is a new path under `api.sypher.in`, not a new hostname. But when a non-Go service does need a hostname (e.g. n8n, future Streamlit/Rails experiment):
+
+1. Pick a hostname under `*.sypher.in` (avoid the apex — Vercel owns it)
+2. Add an `A` record at GoDaddy: `<sub>` → `144.24.97.242`, TTL 600
+3. Append a vhost block to `/etc/caddy/Caddyfile` (don't replace, append)
+4. Validate before reloading: `sudo caddy validate --config /etc/caddy/Caddyfile`
+5. Reload: `sudo systemctl reload caddy`
+6. Watch the cert provisioning: `sudo journalctl -u caddy -f --since '1 minute ago'`
+   You'll see `obtaining certificate` then `obtained certificate` within ~10s of DNS resolving
+
+### What NOT to put in Caddy
+
+- **Application logic.** Caddy is a reverse proxy. Auth, rate limiting (without the rate-limit plugin), validation — those belong in the upstream service.
+- **Direct file serving.** If a tool needs to serve static files, it does so itself.
+- **TLS-terminating then re-encrypting in-house.** Caddy is the TLS edge; backend services run plain HTTP on `127.0.0.1` because nothing else can reach those ports anyway.
+
+### Operational
+
+```bash
+# Tail Caddy logs (JSON; pipe to jq for readability)
+sudo journalctl -u caddy -f | jq
+
+# Validate config without reloading
+sudo caddy validate --config /etc/caddy/Caddyfile
+
+# Reload (zero-downtime, in-flight connections finish on old config)
+sudo systemctl reload caddy
+
+# Hard restart (last resort — drops connections)
+sudo systemctl restart caddy
+
+# Inspect the live admin API (introspect what's running)
+curl -s http://127.0.0.1:2019/config/ | jq '.apps.http.servers'
+```
+
 ## When to break this pattern
 
 You shouldn't, for any service that needs to be reachable from the public-facing apex (`api.sypher.in`). The pattern is the convention.
@@ -137,3 +221,5 @@ Exceptions:
 | 2026-05-04 | Classic PAT for GHCR auth | Fine-grained PATs don't yet support private GHCR packages |
 | 2026-05-04 | Multi-arch builds (amd64 + arm64) | OCI Always Free VM is aarch64 |
 | 2026-05-04 | Migrations bundle in the image, dispatched via entrypoint arg | Keeps schema + code in lockstep; no separate migrations repo |
+| 2026-05-05 | Shared Docker network `sypher-net` for container-to-container | Replaces `host.docker.internal` host-gateway approach. Cleaner, doesn't need Postgres bound to the docker0 interface. |
+| 2026-05-06 | Caddy fronts every public service on the VM | Auto-TLS, uniform headers, reload-without-restart. Backends bind to `127.0.0.1` only — Caddy is the only public ingress. |
