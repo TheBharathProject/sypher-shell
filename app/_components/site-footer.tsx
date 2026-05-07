@@ -30,10 +30,10 @@ export function SiteFooter() {
           >
             GitHub
           </a>
-          <a href="/mergeup-privacy-policy.md" className="hover:text-ink">
+          <a href="/privacy" className="hover:text-ink">
             Privacy
           </a>
-          <a href="/merge_up_terms_of_service.md" className="hover:text-ink">
+          <a href="/terms" className="hover:text-ink">
             Terms
           </a>
         </nav>

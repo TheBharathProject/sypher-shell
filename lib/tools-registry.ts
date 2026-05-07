@@ -42,6 +42,21 @@ export const tools: Tool[] = [
     launchHint: "launching this month",
     seoKeywords: ["instagram reel transcription", "hook analyzer"],
   },
+  {
+    slug: "pegasus",
+    name: "Pegasus",
+    tagline: "A quieter way to track your job hunt.",
+    description:
+      "A small, calm tool for tracking job applications, recruiter conversations, resumes, and interview notes — built for the way you actually job hunt, not for a sales team.",
+    rewriteTarget: "https://sypher-tool-pegasus.vercel.app",
+    status: "live",
+    seoKeywords: [
+      "job application tracker",
+      "job hunt CRM alternative",
+      "resume vault",
+      "interview tracker",
+    ],
+  },
 ];
 
 export type ToolSlug = (typeof tools)[number]["slug"];

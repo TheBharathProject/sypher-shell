@@ -21,6 +21,7 @@ interface ToolRoute {
 // Example: { slug: 'reel-hooks', rewriteTarget: 'https://sypher-tool-reel-hooks.vercel.app' }
 const tools: ToolRoute[] = [
   { slug: 'hello', rewriteTarget: 'https://sypher-tool-hello.vercel.app' },
+  { slug: 'pegasus', rewriteTarget: 'https://sypher-tool-pegasus.vercel.app' },
 ];
 
 const config: NextConfig = {
