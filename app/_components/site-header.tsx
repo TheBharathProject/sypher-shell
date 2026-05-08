@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "./theme-toggle";
 
 export function SiteHeader() {
   return (
@@ -9,7 +10,7 @@ export function SiteHeader() {
           Sypher
         </Link>
 
-        <nav className="flex items-center gap-6 text-[14px] text-ink-muted">
+        <nav className="flex items-center gap-4 sm:gap-6 text-[14px] text-ink-muted">
           <a href="#tools" className="hover:text-ink transition-colors hidden sm:inline">
             Tools
           </a>
@@ -19,6 +20,7 @@ export function SiteHeader() {
           <Link href="/blog" className="hover:text-ink transition-colors">
             Blog
           </Link>
+          <ThemeToggle />
           <a href="#waitlist" className="btn btn-primary py-2 px-4 text-[13px]">
             Join waitlist
           </a>

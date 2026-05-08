@@ -53,6 +53,22 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+// Inline boot script — runs before first paint to avoid a flash of the wrong
+// theme on every page load. Reads localStorage["sypher.theme"] (the same key
+// every Sypher tool uses on the same origin), falls back to OS preference,
+// stamps data-theme on <html>. Pegasus uses the same boot logic.
+const themeBootScript = `
+try {
+  var pref = localStorage.getItem('sypher.theme') || 'system';
+  var resolved = pref === 'system'
+    ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+    : pref;
+  document.documentElement.dataset.theme = resolved;
+} catch (e) {
+  document.documentElement.dataset.theme = 'light';
+}
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -61,8 +77,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-theme="light"
       className={`${instrumentSerif.variable} ${geistSans.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+      </head>
       <body className="min-h-full flex flex-col bg-paper text-ink">
         {children}
         <Analytics />
