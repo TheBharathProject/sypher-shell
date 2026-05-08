@@ -305,6 +305,48 @@ When you're not sure whether something belongs in the tool repo or the shell:
 
 ---
 
+## Admin SQL recipes (Pegasus)
+
+Quick-reference SQL for things the product UI doesn't expose. Run carefully; everything here goes through `psql "$DATABASE_URL"` against the prod DB.
+
+**Grant a user premium** (Stripe is not yet wired — premium is admin-flippable per ADR-002 D6):
+```sql
+UPDATE auth.users SET is_premium = true WHERE email = 'user@example.com';
+```
+
+**Revoke premium**:
+```sql
+UPDATE auth.users SET is_premium = false WHERE email = 'user@example.com';
+```
+
+**Hard-delete a community post** (soft-delete is the user-visible path; hard-delete only for clear ToS violations):
+```sql
+DELETE FROM job_tracker.community_posts WHERE id = '<post-uuid>';
+-- ON DELETE CASCADE clears community_votes + community_comments.
+```
+
+**Triage flagged posts** (the moderation queue UI is v2):
+```sql
+SELECT id, surface, title, user_id, created_at
+FROM job_tracker.community_posts
+WHERE status = 'flagged'
+ORDER BY created_at DESC;
+```
+Then either restore (`UPDATE … SET status = 'active'`) or hard-delete.
+
+**Bump community rate limits** (defaults are 5 posts/surface/day, 50 comments, 100 votes — see ADR-003 D9). Currently hardcoded in `handlers_community.go` constants; bump there + redeploy. Future: move to env.
+
+**Run cron jobs ad-hoc on the VM**:
+```bash
+docker run --rm --network sypher-net \
+  -e DATABASE_URL=postgresql://sypher:...@postgres:5432/sypher \
+  --env-file <(cat ~/.pg-secret | grep -v '^#' | grep -v '^$') \
+  ghcr.io/thebharathproject/sypher-api:latest \
+  cron-once daily-digest
+```
+
+---
+
 ## Future work this doc tracks
 
 These aren't done yet — written down so the conventions evolve cleanly:
