@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Geist } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "./_components/analytics";
+import { StorageSync } from "./_components/storage-sync";
 
 const instrumentSerif = Instrument_Serif({
   variable: "--font-display",
@@ -84,6 +85,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
       <body className="min-h-full flex flex-col bg-paper text-ink">
+        <StorageSync />
         {children}
         <Analytics />
       </body>
