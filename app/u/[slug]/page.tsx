@@ -9,6 +9,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "../../_components/site-header";
 import { SiteFooter } from "../../_components/site-footer";
+import { ProfileChrome } from "./profile-chrome";
 
 const API_URL = process.env.SYPHER_API_URL ?? "https://api.sypher.in";
 
@@ -141,7 +142,10 @@ export default async function PublicProfilePage({
         <article className="max-w-[760px] mx-auto">
           {/* Identity card */}
           <header className="pb-10 border-b border-hairline">
-            <p className="t-eyebrow mb-6">Built on Sypher</p>
+            <div className="flex items-baseline justify-between mb-6 gap-4">
+              <p className="t-eyebrow">Built on Sypher</p>
+              <ProfileChrome slug={profile.slug} />
+            </div>
             <div className="flex items-start gap-6">
               <div className="size-20 md:size-24 rounded-full overflow-hidden bg-paper-deep border border-hairline flex items-center justify-center text-ink shrink-0 t-display text-[34px]">
                 {profile.pictureUrl ? (
