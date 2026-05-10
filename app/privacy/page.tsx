@@ -4,7 +4,7 @@ import { SiteFooter } from "../_components/site-footer";
 export const dynamic = "force-static";
 
 export const metadata = {
-  title: "Privacy · Sypher",
+  title: "Privacy",
   description:
     "How Sypher handles your data, who else sees it, and the controls you have over it.",
   alternates: { canonical: "https://sypher.in/privacy" },

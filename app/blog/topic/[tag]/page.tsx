@@ -18,7 +18,7 @@ export async function generateMetadata({
 }) {
   const { tag } = await params;
   return {
-    title: `${tag} · Sypher Blog`,
+    title: `Topic: ${tag}`,
     description: `Posts tagged "${tag}" on Sypher.`,
     alternates: { canonical: `https://sypher.in/blog/topic/${tag}` },
   };

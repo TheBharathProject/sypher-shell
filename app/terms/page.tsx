@@ -4,7 +4,7 @@ import { SiteFooter } from "../_components/site-footer";
 export const dynamic = "force-static";
 
 export const metadata = {
-  title: "Terms · Sypher",
+  title: "Terms",
   description: "Plain-English terms of use for Sypher and every tool inside it.",
   alternates: { canonical: "https://sypher.in/terms" },
 };

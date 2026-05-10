@@ -19,7 +19,7 @@ export async function generateMetadata({
   const post = await getBlogPost(slug);
   if (!post) return {};
   return {
-    title: `${post.title} · Sypher`,
+    title: post.title,
     description: post.description,
     alternates: { canonical: `https://sypher.in/blog/${post.slug}` },
     openGraph: {

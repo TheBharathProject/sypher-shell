@@ -4,7 +4,7 @@ import { BlogHeader } from "../_components/blog-header";
 export const dynamic = "force-static";
 
 export const metadata = {
-  title: "About · Sypher Blog",
+  title: "About the Blog",
   description: "About the Sypher blog and the studio behind it.",
   alternates: { canonical: "https://sypher.in/blog/about" },
 };

@@ -11,7 +11,7 @@ import { StoryCard } from "./_components/story-card";
 export const dynamic = "force-static";
 
 export const metadata = {
-  title: "Blog · Sypher",
+  title: "Blog",
   description:
     "Notes from the workshop. Posts about the tools, the build, and what's working.",
   alternates: { canonical: "https://sypher.in/blog" },
