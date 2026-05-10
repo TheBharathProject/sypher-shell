@@ -1,6 +1,7 @@
 import { SiteHeader } from "./_components/site-header";
 import { Hero } from "./_components/hero";
 import { Maker } from "./_components/maker";
+import { ClosingCta } from "./_components/closing-cta";
 import { SiteFooter } from "./_components/site-footer";
 
 export const dynamic = "force-static";
@@ -12,7 +13,7 @@ export default function Home() {
     name: "Sypher",
     url: "https://sypher.in",
     description:
-      "Pegasus is live now on Sypher. More focused tools are coming soon.",
+      "Pegasus and Merge Up live on Sypher. More focused tools are coming soon.",
     founder: {
       "@type": "Person",
       name: "Shubham Dixit",
@@ -29,6 +30,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <Maker />
+        <ClosingCta />
       </main>
       <SiteFooter />
     </>
