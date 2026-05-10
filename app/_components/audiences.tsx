@@ -38,22 +38,17 @@ export function Audiences() {
             </p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-3">
             {audiences.map((a, index) => (
-              <article
-                key={a.title}
-                className={`card flex h-full flex-col rounded-[22px] text-left ${
-                  index === 1 ? "md:translate-y-8" : ""
-                }`}
-              >
+              <article key={a.title} className="border-t border-hairline pt-5 text-left">
                 <p className="text-[12px] uppercase tracking-[0.16em] text-ink-faint">
                   0{index + 1}
                 </p>
-                <h3 className="mt-6 t-display text-[26px]">{a.title}</h3>
-                <p className="mt-4 flex-1 text-[14px] leading-relaxed text-ink-muted">
+                <h3 className="mt-5 t-display text-[24px]">{a.title}</h3>
+                <p className="mt-4 text-[14px] leading-relaxed text-ink-muted">
                   {a.body}
                 </p>
-                <blockquote className="mt-6 border-t border-hairline pt-4 text-[13px] italic leading-relaxed text-ink-muted">
+                <blockquote className="mt-5 text-[13px] italic leading-relaxed text-ink-muted">
                   &ldquo;{a.quote}&rdquo;
                 </blockquote>
               </article>

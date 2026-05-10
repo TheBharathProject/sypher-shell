@@ -1,9 +1,9 @@
 export function Maker() {
   return (
-    <section id="maker" className="border-b border-hairline">
+    <section id="maker" className="bg-deep border-b border-hairline">
       <div className="section-wrap py-20 md:py-28">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <div className="rounded-[26px] border border-hairline bg-deep px-6 py-7 md:px-8 md:py-9">
+          <div>
             <p className="t-eyebrow mb-4">Maker</p>
             <h2 className="t-display text-[clamp(30px,4.2vw,48px)]">
               Built by <span className="t-display-italic">Shubham</span>, with a bias toward smaller software.
@@ -14,20 +14,20 @@ export function Maker() {
               helps, separate products where it matters.
             </p>
 
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              <div className="rounded-[18px] border border-hairline bg-card px-4 py-4">
+            <div className="mt-8 grid gap-6 sm:grid-cols-3">
+              <div className="border-t border-hairline pt-4">
                 <p className="text-[12px] uppercase tracking-[0.16em] text-ink-faint">Build</p>
                 <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
                   Ship the smallest credible version first.
                 </p>
               </div>
-              <div className="rounded-[18px] border border-hairline bg-card px-4 py-4">
+              <div className="border-t border-hairline pt-4">
                 <p className="text-[12px] uppercase tracking-[0.16em] text-ink-faint">Watch</p>
                 <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
                   Learn from real usage, not roadmap fantasy.
                 </p>
               </div>
-              <div className="rounded-[18px] border border-hairline bg-card px-4 py-4">
+              <div className="border-t border-hairline pt-4">
                 <p className="text-[12px] uppercase tracking-[0.16em] text-ink-faint">Trim</p>
                 <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
                   Remove weight until the tool feels obvious.
@@ -37,7 +37,7 @@ export function Maker() {
           </div>
 
           <div className="space-y-4">
-            <article className="card rounded-[24px]">
+            <article className="rounded-[20px] border border-hairline bg-card px-5 py-5">
               <p className="t-eyebrow">Reach out</p>
               <p className="mt-4 text-[14px] leading-relaxed text-ink-muted">
                 Questions, blunt feedback, or a tool idea that should exist:
@@ -52,7 +52,7 @@ export function Maker() {
               </p>
             </article>
 
-            <article className="card rounded-[24px]">
+            <article className="rounded-[20px] border border-hairline px-5 py-5">
               <div className="flex items-center justify-between mb-4">
                 <span className="inline-flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.12em] text-ink-faint">
                   <span className="size-1.5 rounded-full bg-ink-faint" aria-hidden />

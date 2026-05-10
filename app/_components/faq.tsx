@@ -50,9 +50,9 @@ export function FAQ() {
             </p>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-0">
             {faqs.map((item, i) => (
-              <details key={i} className="card group rounded-[20px] [&[open]]:border-ink">
+              <details key={i} className="group border-t border-hairline py-5 last:border-b [&[open]]:border-ink">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6">
                   <span className="text-[15px] md:text-[16px] font-medium tracking-tight">
                     {item.q}

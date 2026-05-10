@@ -8,51 +8,38 @@ export function ToolsSection() {
   return (
     <section id="tools">
       <div className="section-wrap py-20 md:py-28">
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end">
-          <div>
-            <p className="t-eyebrow mb-4">The library</p>
-            <h2 className="t-display max-w-[700px] text-[clamp(30px,4.2vw,48px)]">
-              Live now, next up, and never bundled into one giant product.
-            </h2>
-          </div>
-          <div className="rounded-[18px] border border-hairline bg-deep px-5 py-4 text-[14px] leading-relaxed text-ink-muted">
-            Each tool is its own product. Pay for one, ignore the rest, and
-            never inherit features that belong to someone else&rsquo;s workflow.
-          </div>
+        <div>
+          <p className="t-eyebrow mb-4">The library</p>
+          <h2 className="t-display max-w-[700px] text-[clamp(30px,4.2vw,48px)]">
+            Live now, next up, and never bundled into one giant product.
+          </h2>
+          <p className="mt-5 max-w-[580px] text-[15px] leading-relaxed text-ink-muted">
+            Every tool stands alone. Pay for one, ignore the rest, and never
+            inherit features that belong to someone else&rsquo;s workflow.
+          </p>
         </div>
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)]">
-          <div className="space-y-4">
+        <div className="mt-14 space-y-12">
+          <div>
             <div className="flex items-center justify-between gap-4">
               <p className="t-eyebrow">Live now</p>
-              <p className="text-[13px] text-ink-faint">
-                Open the real thing, not a mock waitlist.
-              </p>
+              <p className="text-[13px] text-ink-faint">Open the real thing, not a placeholder.</p>
             </div>
-            {live.length > 0 ? (
-              live.map((t) => <ToolCard key={t.slug} tool={t} state="live" />)
-            ) : (
-              <ToolCardEmpty />
-            )}
+
+            <div className="mt-5 grid gap-4">
+              {live.length > 0 ? live.map((t) => <ToolCard key={t.slug} tool={t} state="live" />) : <ToolCardEmpty />}
+            </div>
           </div>
 
-          <div className="space-y-4">
-            <article className="rounded-[22px] border border-hairline bg-deep px-5 py-5">
-              <p className="t-eyebrow">Next in queue</p>
-              <h3 className="t-display mt-3 text-[26px]">The roadmap stays small on purpose.</h3>
-              <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
-                Sypher is not trying to become a suite. It is trying to become a
-                shelf of precise tools that earn their keep individually.
-              </p>
-            </article>
+          <div>
+            <div className="flex items-center justify-between gap-4">
+              <p className="t-eyebrow">Next up</p>
+              <p className="text-[13px] text-ink-faint">Roadmap stays deliberately small.</p>
+            </div>
 
-            {upcoming.length > 0 ? (
-              upcoming.map((t) => <ToolCard key={t.slug} tool={t} state="upcoming" />)
-            ) : (
-              <ToolCardEmpty />
-            )}
-
-            {live.length === 0 && upcoming.length === 0 ? <ToolCardEmpty /> : null}
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              {upcoming.length > 0 ? upcoming.map((t) => <ToolCard key={t.slug} tool={t} state="upcoming" />) : <ToolCardEmpty />}
+            </div>
           </div>
         </div>
       </div>
@@ -83,23 +70,13 @@ function ToolCard({ tool, state }: { tool: Tool; state: "live" | "upcoming" }) {
         </span>
       </div>
 
-      <h3 className="t-display text-[30px]">{tool.name}</h3>
-      <p className="mt-2 text-[16px] leading-relaxed text-ink">
+      <h3 className="t-display text-[28px]">{tool.name}</h3>
+      <p className="mt-2 text-[15px] leading-relaxed text-ink">
         {tool.tagline}
       </p>
       <p className="mt-3 max-w-[58ch] text-[14px] leading-relaxed text-ink-muted">
         {tool.description}
       </p>
-
-      {tool.seoKeywords?.length ? (
-        <div className="mt-5 flex flex-wrap gap-2">
-          {tool.seoKeywords.slice(0, 3).map((keyword) => (
-            <span key={keyword} className="pill bg-paper px-3 py-1.5 text-[12px]">
-              {keyword}
-            </span>
-          ))}
-        </div>
-      ) : null}
 
       <div className="mt-6 flex items-center justify-between border-t border-hairline pt-4 text-[13px]">
         {tool.priceInr ? (
@@ -119,17 +96,17 @@ function ToolCard({ tool, state }: { tool: Tool; state: "live" | "upcoming" }) {
 
   if (live) {
     return (
-      <Link href={`/${tool.slug}`} className="card card-hover block rounded-[24px] p-7">
+      <Link href={`/${tool.slug}`} className="card card-hover block rounded-[20px] p-7">
         {inner}
       </Link>
     );
   }
-  return <div className="card rounded-[24px] p-7">{inner}</div>;
+  return <div className="card rounded-[20px] p-7">{inner}</div>;
 }
 
 function ToolCardEmpty() {
   return (
-    <article className="card flex min-h-[220px] flex-col justify-between border-dashed rounded-[24px] p-7">
+    <article className="card flex min-h-[200px] flex-col justify-between border-dashed rounded-[20px] p-7">
       <span className="text-[12px] uppercase tracking-[0.12em] text-ink-faint">
         Tool coming
       </span>

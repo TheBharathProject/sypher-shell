@@ -55,7 +55,7 @@ export function WaitlistForm({ source = "homepage_closing_cta" }: Props) {
         aria-live="polite"
       >
         <p className="text-[15px] text-ink">
-          Got it. <span className="t-display-italic text-saffron">We&rsquo;ll email when Tool 01 ships.</span>
+          Got it. <span className="t-display-italic text-saffron">We&rsquo;ll email when the next tool ships.</span>
         </p>
       </div>
     );

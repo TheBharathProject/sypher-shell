@@ -44,28 +44,21 @@ export function Principles() {
             </p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-8 md:grid-cols-3">
             {principles.map((p, index) => (
-              <article
-                key={p.title}
-                className={`card text-left ${index === 0 ? "md:col-span-2 md:grid md:grid-cols-[72px_minmax(0,1fr)] md:gap-6" : ""}`}
-              >
-                <div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex size-11 items-center justify-center rounded-xl bg-paper-deep text-ink">
-                      {p.icon}
-                    </div>
-                    <span className="text-[12px] uppercase tracking-[0.18em] text-ink-faint">
-                      0{index + 1}
-                    </span>
+              <article key={p.title} className="border-t border-hairline pt-5 text-left">
+                <div className="flex items-center gap-3">
+                  <div className="flex size-10 items-center justify-center rounded-full border border-hairline bg-card text-ink">
+                    {p.icon}
                   </div>
+                  <span className="text-[12px] uppercase tracking-[0.18em] text-ink-faint">
+                    0{index + 1}
+                  </span>
                 </div>
-                <div className={index === 0 ? "mt-5 md:mt-0" : "mt-5"}>
-                  <h3 className="text-[20px] font-semibold tracking-tight">{p.title}</h3>
-                  <p className="mt-3 max-w-[52ch] text-[14px] leading-relaxed text-ink-muted">
-                    {p.body}
-                  </p>
-                </div>
+                <h3 className="mt-5 text-[18px] font-semibold tracking-tight">{p.title}</h3>
+                <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
+                  {p.body}
+                </p>
               </article>
             ))}
           </div>
