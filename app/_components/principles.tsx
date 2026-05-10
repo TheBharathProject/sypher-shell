@@ -31,31 +31,44 @@ const principles: Principle[] = [
 export function Principles() {
   return (
     <section id="manifesto" className="bg-deep border-t border-b border-hairline">
-      <div className="section-wrap py-20 md:py-28 text-center">
-        <p className="t-eyebrow mb-4">What we believe</p>
-        <h2 className="t-display text-[clamp(28px,4vw,44px)] max-w-[640px] mx-auto">
-          Sharp tools for{" "}
-          <span className="t-display-italic">specific</span> problems.
-        </h2>
-        <p className="mt-5 text-[15px] text-ink-muted max-w-[520px] mx-auto">
-          Three operating principles. Everything we build follows them, or we
-          don&rsquo;t ship it.
-        </p>
+      <div className="section-wrap py-20 md:py-28">
+        <div className="grid gap-10 lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-14">
+          <div>
+            <p className="t-eyebrow mb-4">What we believe</p>
+            <h2 className="t-display text-[clamp(30px,4.2vw,48px)]">
+              Sharp tools for <span className="t-display-italic">specific</span> problems.
+            </h2>
+            <p className="mt-5 max-w-[280px] text-[15px] leading-relaxed text-ink-muted">
+              Sypher only works if each product gets smaller, clearer, and more
+              usable over time.
+            </p>
+          </div>
 
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
-          {principles.map((p) => (
-            <article key={p.title} className="card">
-              <div className="size-10 rounded-lg bg-paper-deep flex items-center justify-center text-ink mb-5">
-                {p.icon}
-              </div>
-              <h3 className="text-[18px] font-semibold tracking-tight">
-                {p.title}
-              </h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">
-                {p.body}
-              </p>
-            </article>
-          ))}
+          <div className="grid gap-4 md:grid-cols-2">
+            {principles.map((p, index) => (
+              <article
+                key={p.title}
+                className={`card text-left ${index === 0 ? "md:col-span-2 md:grid md:grid-cols-[72px_minmax(0,1fr)] md:gap-6" : ""}`}
+              >
+                <div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex size-11 items-center justify-center rounded-xl bg-paper-deep text-ink">
+                      {p.icon}
+                    </div>
+                    <span className="text-[12px] uppercase tracking-[0.18em] text-ink-faint">
+                      0{index + 1}
+                    </span>
+                  </div>
+                </div>
+                <div className={index === 0 ? "mt-5 md:mt-0" : "mt-5"}>
+                  <h3 className="text-[20px] font-semibold tracking-tight">{p.title}</h3>
+                  <p className="mt-3 max-w-[52ch] text-[14px] leading-relaxed text-ink-muted">
+                    {p.body}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

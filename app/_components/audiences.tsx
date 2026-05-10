@@ -6,47 +6,59 @@ interface Audience {
 
 const audiences: Audience[] = [
   {
+    title: "The job seeker",
+    body: "You are applying seriously, talking to recruiters, rewriting resumes, and you need a calmer system than a spreadsheet plus memory.",
+    quote: "I just want one place for the whole search.",
+  },
+  {
     title: "The creator",
-    body: "You post on Instagram, YouTube, or TikTok and you study creators in your niche to figure out what works.",
-    quote: "I want to know what's actually landing — not guess from the algorithm.",
+    body: "You study creators in your niche because you need signal, not recycled advice. You want to see what is actually landing right now.",
+    quote: "Show me the pattern, then get out of the way.",
   },
   {
     title: "The trader",
-    body: "You trade Indian F&O and want clean intraday data plus a place to test ideas without paying broker-tier prices.",
-    quote: "Give me the data, give me a chart, let me work.",
-  },
-  {
-    title: "The maker",
-    body: "You build small things on the internet and want sharp tools that respect your time and your wallet.",
-    quote: "₹99 a month for one tool that actually works? Sold.",
+    body: "You want clean workflows, practical data, and tools that cost less than the vague promise of a full terminal.",
+    quote: "Give me the useful surface, not the enterprise ceremony.",
   },
 ];
 
 export function Audiences() {
   return (
     <section className="bg-deep border-t border-b border-hairline">
-      <div className="section-wrap py-20 md:py-28 text-center">
-        <p className="t-eyebrow mb-4">Who it&rsquo;s for</p>
-        <h2 className="t-display text-[clamp(28px,4vw,44px)] max-w-[640px] mx-auto">
-          Built for{" "}
-          <span className="t-display-italic">specific people</span> with
-          specific problems.
-        </h2>
+      <div className="section-wrap py-20 md:py-28">
+        <div className="grid gap-10 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-14">
+          <div>
+            <p className="t-eyebrow mb-4">Who it&rsquo;s for</p>
+            <h2 className="t-display text-[clamp(30px,4.2vw,48px)]">
+              Different niches. Same appetite for focused tools.
+            </h2>
+            <p className="mt-5 max-w-[280px] text-[15px] leading-relaxed text-ink-muted">
+              The audience changes. The shape does not: one specific person,
+              one blocked workflow, one sharp product.
+            </p>
+          </div>
 
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
-          {audiences.map((a) => (
-            <article key={a.title} className="card">
-              <h3 className="text-[18px] font-semibold tracking-tight">
-                {a.title}
-              </h3>
-              <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
-                {a.body}
-              </p>
-              <blockquote className="mt-4 pt-4 border-l-2 border-saffron pl-3 text-[13px] italic text-ink-muted">
-                &ldquo;{a.quote}&rdquo;
-              </blockquote>
-            </article>
-          ))}
+          <div className="grid gap-4 md:grid-cols-3">
+            {audiences.map((a, index) => (
+              <article
+                key={a.title}
+                className={`card flex h-full flex-col rounded-[22px] text-left ${
+                  index === 1 ? "md:translate-y-8" : ""
+                }`}
+              >
+                <p className="text-[12px] uppercase tracking-[0.16em] text-ink-faint">
+                  0{index + 1}
+                </p>
+                <h3 className="mt-6 t-display text-[26px]">{a.title}</h3>
+                <p className="mt-4 flex-1 text-[14px] leading-relaxed text-ink-muted">
+                  {a.body}
+                </p>
+                <blockquote className="mt-6 border-t border-hairline pt-4 text-[13px] italic leading-relaxed text-ink-muted">
+                  &ldquo;{a.quote}&rdquo;
+                </blockquote>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -7,29 +7,53 @@ export function ToolsSection() {
 
   return (
     <section id="tools">
-      <div className="section-wrap py-20 md:py-28 text-center">
-        <p className="t-eyebrow mb-4">The library</p>
-        <h2 className="t-display text-[clamp(28px,4vw,44px)] max-w-[640px] mx-auto">
-          One tool, one problem.{" "}
-          <span className="t-display-italic">Pay only for what you use.</span>
-        </h2>
-        <p className="mt-5 text-[15px] text-ink-muted max-w-[540px] mx-auto">
-          Each tool is its own product. Open one in a tab and forget the rest
-          exist. Your subscription to one doesn&rsquo;t auto-charge for any
-          other.
-        </p>
+      <div className="section-wrap py-20 md:py-28">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end">
+          <div>
+            <p className="t-eyebrow mb-4">The library</p>
+            <h2 className="t-display max-w-[700px] text-[clamp(30px,4.2vw,48px)]">
+              Live now, next up, and never bundled into one giant product.
+            </h2>
+          </div>
+          <div className="rounded-[18px] border border-hairline bg-deep px-5 py-4 text-[14px] leading-relaxed text-ink-muted">
+            Each tool is its own product. Pay for one, ignore the rest, and
+            never inherit features that belong to someone else&rsquo;s workflow.
+          </div>
+        </div>
 
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-          {live.map((t) => (
-            <ToolCard key={t.slug} tool={t} state="live" />
-          ))}
-          {upcoming.map((t) => (
-            <ToolCard key={t.slug} tool={t} state="upcoming" />
-          ))}
-          {Math.max(0, 2 - live.length - upcoming.length) > 0 &&
-            Array.from({ length: 2 - live.length - upcoming.length }).map(
-              (_, i) => <ToolCardEmpty key={`empty-${i}`} />,
+        <div className="mt-14 grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)]">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between gap-4">
+              <p className="t-eyebrow">Live now</p>
+              <p className="text-[13px] text-ink-faint">
+                Open the real thing, not a mock waitlist.
+              </p>
+            </div>
+            {live.length > 0 ? (
+              live.map((t) => <ToolCard key={t.slug} tool={t} state="live" />)
+            ) : (
+              <ToolCardEmpty />
             )}
+          </div>
+
+          <div className="space-y-4">
+            <article className="rounded-[22px] border border-hairline bg-deep px-5 py-5">
+              <p className="t-eyebrow">Next in queue</p>
+              <h3 className="t-display mt-3 text-[26px]">The roadmap stays small on purpose.</h3>
+              <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
+                Sypher is not trying to become a suite. It is trying to become a
+                shelf of precise tools that earn their keep individually.
+              </p>
+            </article>
+
+            {upcoming.length > 0 ? (
+              upcoming.map((t) => <ToolCard key={t.slug} tool={t} state="upcoming" />)
+            ) : (
+              <ToolCardEmpty />
+            )}
+
+            {live.length === 0 && upcoming.length === 0 ? <ToolCardEmpty /> : null}
+          </div>
         </div>
       </div>
     </section>
@@ -40,7 +64,7 @@ function ToolCard({ tool, state }: { tool: Tool; state: "live" | "upcoming" }) {
   const live = state === "live";
   const inner = (
     <>
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <span
           className={`inline-flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.12em] ${
             live ? "text-saffron" : "text-ink-faint"
@@ -59,25 +83,35 @@ function ToolCard({ tool, state }: { tool: Tool; state: "live" | "upcoming" }) {
         </span>
       </div>
 
-      <h3 className="text-[22px] font-semibold tracking-tight">{tool.name}</h3>
-      <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">
+      <h3 className="t-display text-[30px]">{tool.name}</h3>
+      <p className="mt-2 text-[16px] leading-relaxed text-ink">
         {tool.tagline}
       </p>
-      <p className="mt-3 text-[13px] leading-relaxed text-ink-muted">
+      <p className="mt-3 max-w-[58ch] text-[14px] leading-relaxed text-ink-muted">
         {tool.description}
       </p>
 
-      <div className="mt-6 pt-4 border-t border-hairline flex items-center justify-between text-[13px]">
+      {tool.seoKeywords?.length ? (
+        <div className="mt-5 flex flex-wrap gap-2">
+          {tool.seoKeywords.slice(0, 3).map((keyword) => (
+            <span key={keyword} className="pill bg-paper px-3 py-1.5 text-[12px]">
+              {keyword}
+            </span>
+          ))}
+        </div>
+      ) : null}
+
+      <div className="mt-6 flex items-center justify-between border-t border-hairline pt-4 text-[13px]">
         {tool.priceInr ? (
           <span className="font-medium text-ink">
             ₹{tool.priceInr}
             <span className="text-ink-faint">/mo</span>
           </span>
         ) : (
-          <span />
+          <span className="text-ink-faint">{live ? "Available now" : "Independent pricing"}</span>
         )}
         <span className="text-ink-faint">
-          {live ? "Open →" : tool.launchHint ?? "soon"}
+          {live ? "Open tool →" : tool.launchHint ?? "soon"}
         </span>
       </div>
     </>
@@ -85,21 +119,21 @@ function ToolCard({ tool, state }: { tool: Tool; state: "live" | "upcoming" }) {
 
   if (live) {
     return (
-      <Link href={`/${tool.slug}`} className="card card-hover block">
+      <Link href={`/${tool.slug}`} className="card card-hover block rounded-[24px] p-7">
         {inner}
       </Link>
     );
   }
-  return <div className="card">{inner}</div>;
+  return <div className="card rounded-[24px] p-7">{inner}</div>;
 }
 
 function ToolCardEmpty() {
   return (
-    <article className="card border-dashed flex flex-col justify-between min-h-[200px]">
+    <article className="card flex min-h-[220px] flex-col justify-between border-dashed rounded-[24px] p-7">
       <span className="text-[12px] uppercase tracking-[0.12em] text-ink-faint">
         Tool coming
       </span>
-      <h3 className="text-[20px] text-ink-faint">In planning</h3>
+      <h3 className="t-display text-[28px] text-ink-faint">In planning</h3>
       <span className="text-[12px] text-ink-faint">
         Idea → roadmap → ship
       </span>

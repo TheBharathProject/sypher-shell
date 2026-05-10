@@ -1,35 +1,62 @@
 export function Maker() {
   return (
-    <section id="maker" className="bg-deep border-t border-b border-hairline">
+    <section id="maker" className="border-b border-hairline">
       <div className="section-wrap py-20 md:py-28">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
-          <div className="md:col-span-7">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="rounded-[26px] border border-hairline bg-deep px-6 py-7 md:px-8 md:py-9">
             <p className="t-eyebrow mb-4">Maker</p>
-            <h2 className="t-display text-[clamp(28px,4vw,44px)]">
-              Built by{" "}
-              <span className="t-display-italic">Shubham</span>.
+            <h2 className="t-display text-[clamp(30px,4.2vw,48px)]">
+              Built by <span className="t-display-italic">Shubham</span>, with a bias toward smaller software.
             </h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-ink-muted max-w-[520px]">
-              Solo founder. Ships across niches — creator analytics, trading
-              data, mobile games, whatever needs a sharp tool. Sypher is the
-              wrapper that makes shipping the next one cheaper.
+            <p className="mt-5 max-w-[56ch] text-[15px] leading-relaxed text-ink-muted">
+              Sypher is the wrapper that makes the next product faster to ship
+              without turning the current one into a mess. Shared infra where it
+              helps, separate products where it matters.
             </p>
-            <p className="mt-3 text-[14px] text-ink-muted">
-              <a
-                href="mailto:buildwithshubham.dixit@gmail.com"
-                className="text-ink underline underline-offset-4 decoration-hairline hover:decoration-ink"
-              >
-                buildwithshubham.dixit@gmail.com
-              </a>
-            </p>
+
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-[18px] border border-hairline bg-card px-4 py-4">
+                <p className="text-[12px] uppercase tracking-[0.16em] text-ink-faint">Build</p>
+                <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
+                  Ship the smallest credible version first.
+                </p>
+              </div>
+              <div className="rounded-[18px] border border-hairline bg-card px-4 py-4">
+                <p className="text-[12px] uppercase tracking-[0.16em] text-ink-faint">Watch</p>
+                <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
+                  Learn from real usage, not roadmap fantasy.
+                </p>
+              </div>
+              <div className="rounded-[18px] border border-hairline bg-card px-4 py-4">
+                <p className="text-[12px] uppercase tracking-[0.16em] text-ink-faint">Trim</p>
+                <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
+                  Remove weight until the tool feels obvious.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="md:col-span-5">
-            <article className="card">
+          <div className="space-y-4">
+            <article className="card rounded-[24px]">
+              <p className="t-eyebrow">Reach out</p>
+              <p className="mt-4 text-[14px] leading-relaxed text-ink-muted">
+                Questions, blunt feedback, or a tool idea that should exist:
+              </p>
+              <p className="mt-4 text-[15px]">
+                <a
+                  href="mailto:buildwithshubham.dixit@gmail.com"
+                  className="text-ink underline underline-offset-4 decoration-hairline hover:decoration-ink"
+                >
+                  buildwithshubham.dixit@gmail.com
+                </a>
+              </p>
+            </article>
+
+            <article className="card rounded-[24px]">
               <div className="flex items-center justify-between mb-4">
-                <span className="inline-flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.12em] text-saffron">
-                  <span className="size-1.5 rounded-full bg-saffron" aria-hidden />
-                  Live · Play Store
+                <span className="inline-flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.12em] text-ink-faint">
+                  <span className="size-1.5 rounded-full bg-ink-faint" aria-hidden />
+                  Also shipped
                 </span>
                 <span className="text-[12px] text-ink-faint font-mono">
                   /merge-up

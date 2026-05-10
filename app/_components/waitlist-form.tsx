@@ -50,7 +50,7 @@ export function WaitlistForm({ source = "homepage_closing_cta" }: Props) {
   if (state === "success") {
     return (
       <div
-        className="mt-10 max-w-[440px] mx-auto rounded-md border border-hairline bg-card p-5 text-center"
+        className="mt-6 max-w-[440px] mx-auto rounded-md border border-hairline bg-card p-5 text-center"
         role="status"
         aria-live="polite"
       >
@@ -64,7 +64,7 @@ export function WaitlistForm({ source = "homepage_closing_cta" }: Props) {
   return (
     <form
       onSubmit={onSubmit}
-      className="mt-10 max-w-[440px] mx-auto flex flex-col sm:flex-row gap-2"
+      className="mt-6 max-w-[440px] mx-auto flex flex-col sm:flex-row gap-2"
       aria-label="Waitlist signup"
       noValidate
     >

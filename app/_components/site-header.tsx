@@ -4,26 +4,29 @@ import { ThemeToggle } from "./theme-toggle";
 export function SiteHeader() {
   return (
     <header className="border-b border-hairline bg-paper/80 backdrop-blur-sm sticky top-0 z-40">
-      <div className="section-wrap flex items-center justify-between py-4">
-        <Link href="/" className="flex items-center gap-2 text-[15px] font-medium text-ink">
-          <span className="inline-block size-2 rounded-full bg-saffron" aria-hidden />
+      <div className="section-wrap flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <Link href="/" className="flex items-center gap-3 text-[15px] font-medium text-ink">
+          <span className="inline-flex size-7 items-center justify-center rounded-full border border-hairline bg-card text-[11px] font-semibold uppercase tracking-[0.18em] text-saffron">
+            S
+          </span>
           Sypher
         </Link>
 
-        <nav className="flex items-center gap-4 sm:gap-6 text-[14px] text-ink-muted">
-          <a href="#tools" className="hover:text-ink transition-colors hidden sm:inline">
-            Tools
+        <nav className="flex flex-wrap items-center gap-2 text-[13px] text-ink-muted sm:justify-end">
+          <a href="#tools" className="pill bg-card hover:text-ink">
+            Library
           </a>
-          <a href="#faq" className="hover:text-ink transition-colors hidden sm:inline">
+          <a href="#manifesto" className="pill bg-card hover:text-ink hidden sm:inline-flex">
+            Principles
+          </a>
+          <a href="#faq" className="pill bg-card hover:text-ink hidden sm:inline-flex">
             FAQ
           </a>
-          <Link href="/blog" className="hover:text-ink transition-colors">
+          <Link href="/blog" className="pill bg-card hover:text-ink">
             Blog
           </Link>
           <ThemeToggle />
-          <a href="#waitlist" className="btn btn-primary py-2 px-4 text-[13px]">
-            Join waitlist
-          </a>
+          <Link href="/pegasus" className="btn btn-primary py-2 px-4 text-[13px]">Open Pegasus</Link>
         </nav>
       </div>
     </header>
