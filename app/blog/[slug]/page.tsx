@@ -82,7 +82,7 @@ export default async function BlogPostPage({
       <BlogHeader />
 
       <article className="post-shell">
-        <header className="mb-8">
+        <header className="post-head">
           <p className="post-kicker">
             <Link href="/blog">← all posts</Link>
           </p>
