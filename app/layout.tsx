@@ -25,6 +25,10 @@ export const metadata: Metadata = {
     default: "Sypher — Small tools that decode the thing you're stuck on",
     template: "%s · Sypher",
   },
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: [{ url: "/icon.svg", type: "image/svg+xml" }],
+  },
   description:
     "A growing library of small SaaS tools — each focused on a single specific job. Reels, trading data, captions, and more. One tool, one problem, ₹99-ish a month.",
   keywords: [
