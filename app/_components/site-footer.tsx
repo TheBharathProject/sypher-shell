@@ -20,19 +20,21 @@ export function SiteFooter() {
             <a href="/pegasus" className="hover:text-ink">
               Pegasus
             </a>
-            <a href="/mergeup-privacy-policy.md" className="hover:text-ink">
-              Merge Up Privacy
+            <a
+              href="https://play.google.com/store/apps/details?id=com.merge.mergeup"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-ink"
+            >
+              Merge Up
             </a>
-            <a href="/merge_up_terms_of_service.md" className="hover:text-ink">
-              Merge Up Terms
+            <a href="/blog" className="hover:text-ink">
+              Blog
             </a>
           </nav>
 
           <nav className="grid content-start gap-2">
             <p className="text-[11px] uppercase tracking-[0.16em] text-ink-faint">Studio</p>
-            <a href="/blog" className="hover:text-ink">
-              Blog
-            </a>
             <a href="#waitlist" className="hover:text-ink">
               Waitlist
             </a>
@@ -44,6 +46,9 @@ export function SiteFooter() {
             >
               GitHub
             </a>
+            <a href="mailto:buildwithshubham.dixit@gmail.com" className="hover:text-ink">
+              Contact
+            </a>
           </nav>
 
           <nav className="grid content-start gap-2">
@@ -54,8 +59,11 @@ export function SiteFooter() {
             <a href="/terms" className="hover:text-ink">
               Terms
             </a>
-            <a href="mailto:buildwithshubham.dixit@gmail.com" className="hover:text-ink">
-              Contact
+            <a href="/mergeup-privacy-policy.md" className="hover:text-ink">
+              Merge Up Privacy
+            </a>
+            <a href="/merge_up_terms_of_service.md" className="hover:text-ink">
+              Merge Up Terms
             </a>
           </nav>
         </div>

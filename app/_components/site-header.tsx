@@ -11,20 +11,20 @@ export function SiteHeader() {
         </Link>
 
         <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[14px] text-ink-muted sm:justify-end sm:gap-x-5">
-          <a href="#tools" className="hover:text-ink transition-colors">
-            Tools
+          <a href="#products" className="hover:text-ink transition-colors">
+            Products
           </a>
-          <a href="#manifesto" className="hover:text-ink transition-colors hidden sm:inline">
-            Principles
+          <a href="#about" className="hover:text-ink transition-colors">
+            About
           </a>
-          <a href="#faq" className="hover:text-ink transition-colors hidden sm:inline">
-            FAQ
+          <a href="#waitlist" className="hover:text-ink transition-colors">
+            Waitlist
           </a>
           <Link href="/blog" className="hover:text-ink transition-colors">
             Blog
           </Link>
           <ThemeToggle />
-          <Link href="/pegasus" className="btn btn-primary py-2 px-4 text-[13px]">
+          <Link href="/pegasus" className="btn btn-primary">
             Open Pegasus
           </Link>
         </nav>

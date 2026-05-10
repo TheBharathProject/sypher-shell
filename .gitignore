@@ -33,6 +33,10 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# Licensed fonts — keep local-only if ever copied for design tests.
+/public/fonts/LyonDisplay-Regular/
+/public/fonts/LyonDisplay-RegularItalic/
+
 # vercel
 .vercel
 

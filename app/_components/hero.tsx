@@ -3,7 +3,8 @@ import Link from "next/link";
 const products = [
   {
     name: "Pegasus",
-    slug: "/pegasus",
+    href: "/pegasus",
+    external: false,
     state: "Live now",
     kicker: "Job hunt tracker",
     body:
@@ -12,29 +13,30 @@ const products = [
   },
   {
     name: "Merge Up",
-    slug: "/mergeup-privacy-policy.md",
-    state: "Also shipped",
+    href: "https://play.google.com/store/apps/details?id=com.merge.mergeup",
+    external: true,
+    state: "On Android",
     kicker: "Puzzle game",
     body:
-      "A lightweight merge puzzle game built and shipped as part of the same product shelf.",
-    cta: "See product info",
+      "A lightweight merge puzzle game with a cleaner, simpler play loop built on the same small-product shelf.",
+    cta: "Open in Play Store",
   },
 ];
 
 export function Hero() {
   return (
-    <section className="section-wrap pt-16 pb-20 md:pt-24 md:pb-28">
+    <section id="products" className="section-wrap pt-20 pb-28 md:pt-28 md:pb-36">
       <div className="text-center">
         <span className="pill mb-6">
           <span className="pill-dot" aria-hidden />
           Live on Sypher
         </span>
 
-        <h1 className="t-display mx-auto max-w-[880px] text-[clamp(42px,6.2vw,80px)] text-balance">
+        <h1 className="t-display mx-auto max-w-[900px] text-[clamp(40px,6vw,72px)] text-balance">
           Small products, clearly placed, for the jobs you actually do.
         </h1>
 
-        <p className="mx-auto mt-6 max-w-[650px] text-[17px] leading-[1.75] text-ink-muted md:text-[18px]">
+        <p className="mx-auto mt-6 max-w-[700px] text-[16px] leading-[1.75] text-ink-muted md:text-[17px]">
           Sypher is a small shelf of focused tools. Right now that means
           Pegasus for job seekers and Merge Up on mobile, with more products
           coming slowly and on purpose.
@@ -53,26 +55,48 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="mt-14 grid gap-4 md:grid-cols-2">
-        {products.map((product) => (
-          <article key={product.name} className="card rounded-[22px] p-7 text-left">
-            <div className="flex items-center justify-between gap-4">
-              <p className="t-eyebrow">{product.state}</p>
-              <span className="text-[12px] text-ink-faint font-mono">{product.slug}</span>
+      <div className="mt-16 grid gap-5 md:grid-cols-2">
+        {products.map((product) => {
+          const body = (
+            <div className="group h-full rounded-[20px] border border-hairline bg-card p-7 text-left transition duration-200 hover:-translate-y-0.5 hover:border-ink">
+              <div className="flex items-center justify-between gap-4">
+                <p className="t-eyebrow">{product.state}</p>
+                <span className="text-[13px] text-ink-faint">{product.kicker}</span>
+              </div>
+              <h2 className="t-display mt-6 text-[clamp(30px,4vw,38px)]">
+                {product.name}
+              </h2>
+              <p className="mt-4 max-w-[46ch] text-[14px] leading-[1.75] text-ink-muted md:text-[15px]">
+                {product.body}
+              </p>
+              <div className="mt-8 inline-flex items-center gap-2 text-[13px] font-medium text-ink">
+                <span>{product.cta}</span>
+                <span
+                  aria-hidden
+                  className="transition-transform duration-200 group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </div>
             </div>
-            <h2 className="t-display mt-4 text-[34px]">{product.name}</h2>
-            <p className="mt-2 text-[15px] text-ink">{product.kicker}</p>
-            <p className="mt-4 max-w-[48ch] text-[14px] leading-relaxed text-ink-muted">
-              {product.body}
-            </p>
-            <Link
-              href={product.slug}
-              className="mt-6 inline-flex text-[14px] font-medium text-ink underline decoration-hairline underline-offset-4 hover:decoration-ink"
+          );
+
+          return product.external ? (
+            <a
+              key={product.name}
+              href={product.href}
+              target="_blank"
+              rel="noreferrer"
+              className="block h-full"
             >
-              {product.cta}
+              {body}
+            </a>
+          ) : (
+            <Link key={product.name} href={product.href} className="block h-full">
+              {body}
             </Link>
-          </article>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
