@@ -1,11 +1,6 @@
 import { SiteHeader } from "./_components/site-header";
 import { Hero } from "./_components/hero";
-import { Principles } from "./_components/principles";
-import { ToolsSection } from "./_components/tools-section";
-import { Audiences } from "./_components/audiences";
 import { Maker } from "./_components/maker";
-import { FAQ } from "./_components/faq";
-import { ClosingCta } from "./_components/closing-cta";
 import { SiteFooter } from "./_components/site-footer";
 
 export const dynamic = "force-static";
@@ -17,7 +12,7 @@ export default function Home() {
     name: "Sypher",
     url: "https://sypher.in",
     description:
-      "A growing library of small SaaS tools, each focused on a single specific job.",
+      "Pegasus is live now on Sypher. More focused tools are coming soon.",
     founder: {
       "@type": "Person",
       name: "Shubham Dixit",
@@ -33,12 +28,7 @@ export default function Home() {
       <SiteHeader />
       <main className="flex-1">
         <Hero />
-        <Principles />
-        <ToolsSection />
-        <Audiences />
         <Maker />
-        <FAQ />
-        <ClosingCta />
       </main>
       <SiteFooter />
     </>

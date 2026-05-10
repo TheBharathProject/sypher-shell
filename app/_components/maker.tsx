@@ -1,93 +1,37 @@
 export function Maker() {
   return (
-    <section id="maker" className="bg-deep border-b border-hairline">
+    <section id="maker" className="border-t border-b border-hairline bg-deep">
       <div className="section-wrap py-20 md:py-28">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <div>
-            <p className="t-eyebrow mb-4">Maker</p>
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16">
+          <article>
+            <p className="t-eyebrow mb-4">Built by</p>
             <h2 className="t-display text-[clamp(30px,4.2vw,48px)]">
-              Built by <span className="t-display-italic">Shubham</span>, with a bias toward smaller software.
+              Shubham Dixit.
             </h2>
-            <p className="mt-5 max-w-[56ch] text-[15px] leading-relaxed text-ink-muted">
-              Sypher is the wrapper that makes the next product faster to ship
-              without turning the current one into a mess. Shared infra where it
-              helps, separate products where it matters.
+            <p className="mt-5 max-w-[54ch] text-[15px] leading-relaxed text-ink-muted">
+              I build small software products that stay focused on one job.
+              Sypher is the home for those tools. Pegasus is the first live one.
             </p>
+            <p className="mt-5 text-[15px]">
+              <a
+                href="mailto:buildwithshubham.dixit@gmail.com"
+                className="text-ink underline underline-offset-4 decoration-hairline hover:decoration-ink"
+              >
+                buildwithshubham.dixit@gmail.com
+              </a>
+            </p>
+          </article>
 
-            <div className="mt-8 grid gap-6 sm:grid-cols-3">
-              <div className="border-t border-hairline pt-4">
-                <p className="text-[12px] uppercase tracking-[0.16em] text-ink-faint">Build</p>
-                <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
-                  Ship the smallest credible version first.
-                </p>
-              </div>
-              <div className="border-t border-hairline pt-4">
-                <p className="text-[12px] uppercase tracking-[0.16em] text-ink-faint">Watch</p>
-                <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
-                  Learn from real usage, not roadmap fantasy.
-                </p>
-              </div>
-              <div className="border-t border-hairline pt-4">
-                <p className="text-[12px] uppercase tracking-[0.16em] text-ink-faint">Trim</p>
-                <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
-                  Remove weight until the tool feels obvious.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <article className="rounded-[20px] border border-hairline bg-card px-5 py-5">
-              <p className="t-eyebrow">Reach out</p>
-              <p className="mt-4 text-[14px] leading-relaxed text-ink-muted">
-                Questions, blunt feedback, or a tool idea that should exist:
-              </p>
-              <p className="mt-4 text-[15px]">
-                <a
-                  href="mailto:buildwithshubham.dixit@gmail.com"
-                  className="text-ink underline underline-offset-4 decoration-hairline hover:decoration-ink"
-                >
-                  buildwithshubham.dixit@gmail.com
-                </a>
-              </p>
-            </article>
-
-            <article className="rounded-[20px] border border-hairline px-5 py-5">
-              <div className="flex items-center justify-between mb-4">
-                <span className="inline-flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.12em] text-ink-faint">
-                  <span className="size-1.5 rounded-full bg-ink-faint" aria-hidden />
-                  Also shipped
-                </span>
-                <span className="text-[12px] text-ink-faint font-mono">
-                  /merge-up
-                </span>
-              </div>
-              <h3 className="text-[20px] font-semibold tracking-tight">
-                Merge Up
-              </h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">
-                A puzzle game where you merge numbered blocks to reach higher
-                scores and unlock levels.
-              </p>
-              <p className="mt-3 text-[13px] text-ink-faint">
-                Privacy-first: only a username and score, nothing personal.
-              </p>
-              <div className="mt-5 pt-4 border-t border-hairline flex items-center gap-4 text-[12px]">
-                <a
-                  href="/mergeup-privacy-policy.md"
-                  className="text-ink-muted hover:text-ink"
-                >
-                  Privacy
-                </a>
-                <a
-                  href="/merge_up_terms_of_service.md"
-                  className="text-ink-muted hover:text-ink"
-                >
-                  Terms
-                </a>
-              </div>
-            </article>
-          </div>
+          <article className="border-t border-hairline pt-5">
+            <p className="t-eyebrow">Coming soon</p>
+            <h3 className="t-display mt-3 text-[28px]">
+              More tools will follow.
+            </h3>
+            <p className="mt-4 text-[14px] leading-relaxed text-ink-muted">
+              Slowly, one by one. The goal is a small shelf of focused products,
+              not a cluttered suite.
+            </p>
+          </article>
         </div>
       </div>
     </section>
