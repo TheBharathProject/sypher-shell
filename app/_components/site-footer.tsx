@@ -33,6 +33,14 @@ export function SiteFooter() {
                 Pegasus — Job tracker
               </a>
               <a
+                href="https://chromewebstore.google.com/detail/pegasus-%E2%80%94-job-clipper/oghjgddbopcpgdbpgijkkaabiaebedgp"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-ink transition-colors"
+              >
+                Pegasus — Chrome extension
+              </a>
+              <a
                 href="https://play.google.com/store/apps/details?id=com.merge.mergeup"
                 target="_blank"
                 rel="noopener noreferrer"
