@@ -2,26 +2,25 @@ import { WaitlistForm } from "./waitlist-form";
 
 export function ClosingCta() {
   return (
-    <section id="waitlist">
-      <div className="section-wrap py-24 md:py-32 text-center">
-        <h2 className="t-display text-[clamp(36px,5vw,60px)] max-w-[760px] mx-auto text-balance">
-          Sharp tools deserve a{" "}
-          <span className="t-display-italic">calmer home</span>.
+    <section id="waitlist" className="border-t border-hairline bg-deep">
+      <div className="section-wrap py-16 md:py-20 text-center">
+        <h2 className="t-display text-[clamp(32px,4.8vw,58px)] max-w-[580px] mx-auto text-balance">
+          Be first when the next{" "}
+          <span className="text-saffron">tool ships</span>.
         </h2>
-        <p className="mt-5 text-[15px] md:text-[16px] text-ink-muted max-w-[520px] mx-auto">
-          Drop your email below. One message when Tool 01 is live, with a
-          launch-only discount for the first 100. No spam, ever.
+        <p className="mt-4 text-[15px] text-ink-muted max-w-[420px] mx-auto">
+          One email per launch. First 100 get a discount. No spam, ever.
         </p>
 
         <WaitlistForm source="homepage_closing_cta" />
 
-        <p className="mt-4 text-[13px] text-ink-faint">
-          Or just{" "}
+        <p className="mt-4 text-[12px] text-ink-faint">
+          Or{" "}
           <a
             href="mailto:buildwithshubham.dixit@gmail.com"
-            className="text-ink underline underline-offset-4 decoration-hairline hover:decoration-ink"
+            className="text-ink-muted underline underline-offset-4 decoration-hairline hover:text-ink hover:decoration-ink transition-colors"
           >
-            email
+            email directly
           </a>
           .
         </p>

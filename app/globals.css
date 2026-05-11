@@ -25,12 +25,12 @@
    sypher.in/blog and sypher.in/pegasus/dashboard feels like one site. */
 [data-theme="dark"] {
   --color-paper: #1a1a1a;
-  --color-paper-deep: #1f1f1f;
+  --color-paper-deep: #111111;       /* clearly darker than paper so bg-deep sections are visually distinct */
   --color-card: #232323;
   --color-ink: #ececea;
   --color-ink-muted: #b3b1ab;
   --color-ink-faint: #7d7c76;
-  --color-saffron: #f08544;          /* lifted slightly to read on dark */
+  --color-saffron: #f08544;
   --color-saffron-soft: rgba(232, 93, 4, 0.18);
   --color-hairline: #2e2e2e;
 }
@@ -77,8 +77,8 @@ body {
 .t-display-italic {
   font-family: var(--font-display);
   font-weight: 400;
-  font-style: italic;
-  letter-spacing: -0.02em;
+  font-style: normal;
+  letter-spacing: -0.025em;
 }
 .t-eyebrow {
   font-family: var(--font-sans);
@@ -95,10 +95,20 @@ body {
 .section-wrap {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding-left: 28px;
+  padding-right: 28px;
 }
-@media (min-width: 768px) {
-  .section-wrap { padding: 0 32px; }
+@media (min-width: 640px) {
+  .section-wrap {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+@media (min-width: 1024px) {
+  .section-wrap {
+    padding-left: 56px;
+    padding-right: 56px;
+  }
 }
 
 .bg-deep {
@@ -113,9 +123,9 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 14px 22px;
+  padding: 10px 18px;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   font-family: var(--font-sans);
   letter-spacing: -0.01em;

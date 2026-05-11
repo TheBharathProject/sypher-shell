@@ -10,18 +10,18 @@ export function SiteHeader() {
           Sypher
         </Link>
 
-        <nav className="flex items-center gap-4 sm:gap-6 text-[14px] text-ink-muted">
-          <a href="#tools" className="hover:text-ink transition-colors hidden sm:inline">
+        <nav className="flex items-center gap-4 sm:gap-5 text-[13px] text-ink-muted">
+          <a href="#products" className="hover:text-ink transition-colors hidden sm:inline">
             Tools
           </a>
-          <a href="#faq" className="hover:text-ink transition-colors hidden sm:inline">
-            FAQ
-          </a>
-          <Link href="/blog" className="hover:text-ink transition-colors">
+          <Link href="/blog" className="hover:text-ink transition-colors hidden sm:inline">
             Blog
           </Link>
           <ThemeToggle />
-          <a href="#waitlist" className="btn btn-primary py-2 px-4 text-[13px]">
+          <a
+            href="#waitlist"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[12px] font-medium bg-ink text-card border border-ink hover:bg-ink/90 transition-colors"
+          >
             Join waitlist
           </a>
         </nav>
